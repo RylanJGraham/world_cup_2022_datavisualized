@@ -3,12 +3,40 @@ import { Typography, Grid, CardContent } from '@mui/material';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 import DashboardCard from '@/app/(DashboardLayout)/components/shared/DashboardCard';
 import BlankCard from '@/app/(DashboardLayout)/components/shared/BlankCard';
+import { Bracket, IRoundProps } from 'react-brackets';
 
+const rounds: IRoundProps[] = [
+  {
+    title: 'Group A',
+    seeds: [
+      {
+        id: 1,
+        date: new Date().toDateString(),
+        teams: [{ name: 'Team A' }, { name: 'Team B' }],
+      },
+      {
+        id: 2,
+        date: new Date().toDateString(),
+        teams: [{ name: 'Team C' }, { name: 'Team D' }],
+      },
+    ],
+  },
+  {
+    title: 'Group B',
+    seeds: [
+      {
+        id: 3,
+        date: new Date().toDateString(),
+        teams: [{ name: 'Team A' }, { name: 'Team C' }],
+      },
+    ],
+  },
+];
 
 const TypographyPage = () => {
   return (
     <PageContainer title="Typography" description="this is Typography">
-
+      <Bracket rounds={rounds} />
       <Grid container spacing={3}>
         <Grid item sm={12}>
           <DashboardCard title="Default Text">

@@ -1,11 +1,13 @@
 import {
   IconAperture,
-  IconCopy,
   IconLayoutDashboard,
-  IconLogin,
   IconMoodHappy,
-  IconTypography,
+  IconSitemap,
+  IconSoccerField,
+  IconSword,
+  IconTrophy,
   IconUserPlus,
+  IconUsersGroup,
 } from "@tabler/icons-react";
 
 import { uniqueId } from "lodash";
@@ -18,57 +20,45 @@ const Menuitems = [
 
   {
     id: uniqueId(),
-    title: "Dashboard",
-    icon: IconLayoutDashboard,
+    title: "Overview",
+    icon: IconSoccerField,
     href: "/",
   },
   {
     navlabel: true,
-    subheader: "Utilities",
+    subheader: "Tournament Overview",
   },
   {
     id: uniqueId(),
-    title: "Typography",
-    icon: IconTypography,
+    title: "Bracket",
+    icon: IconSitemap,
     href: "/utilities/typography",
   },
   {
     id: uniqueId(),
-    title: "Shadow",
-    icon: IconCopy,
+    title: "Teams",
+    icon: IconUsersGroup,
     href: "/utilities/shadow",
   },
   {
     navlabel: true,
-    subheader: "Auth",
+    subheader: "Winner Analysis",
   },
   {
     id: uniqueId(),
-    title: "Login",
-    icon: IconLogin,
+    title: "Argentina",
+    icon: IconTrophy,
     href: "/authentication/login",
   },
   {
-    id: uniqueId(),
-    title: "Register",
-    icon: IconUserPlus,
-    href: "/authentication/register",
-  },
-  {
     navlabel: true,
-    subheader: "Extra",
+    subheader: "Compare",
   },
   {
     id: uniqueId(),
-    title: "Icons",
-    icon: IconMoodHappy,
+    title: "Team Matchups",
+    icon: IconSword,
     href: "/icons",
-  },
-  {
-    id: uniqueId(),
-    title: "Sample Page",
-    icon: IconAperture,
-    href: "/sample-page",
   },
 ];
 
