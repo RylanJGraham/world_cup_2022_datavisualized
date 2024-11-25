@@ -1,294 +1,64 @@
 'use client';
-import { Typography, Grid, CardContent } from '@mui/material';
-import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
-import DashboardCard from '@/app/(DashboardLayout)/components/shared/DashboardCard';
-import BlankCard from '@/app/(DashboardLayout)/components/shared/BlankCard';
-import { Bracket, IRoundProps } from 'react-brackets';
 
+import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
+import { Bracket, IRoundProps, Seed, SeedItem, SeedTeam, IRenderSeedProps } from 'react-brackets';
+import Flag from 'react-world-flags';
+
+// Custom Seed Component with Flags
+const CustomSeed = ({ seed, breakpoint }: IRenderSeedProps) => {
+  return (
+    <Seed mobileBreakpoint={breakpoint} style={{ fontSize: 22 }}>
+      <SeedItem>
+        <div>
+          {/* First Team */}
+          <SeedTeam style={{ color: 'cyan' }}>
+            <Flag code={seed.teams[0]?.countryCode || ''} style={{ marginRight: 40, width: 40 }} />
+            {seed.teams[0]?.name || 'NO TEAM'}
+          </SeedTeam>
+          {/* Second Team */}
+          <SeedTeam>
+            <Flag code={seed.teams[1]?.countryCode || ''} style={{ marginRight: 40, width: 40 }} />
+            {seed.teams[1]?.name || 'NO TEAM'}
+          </SeedTeam>
+        </div>
+      </SeedItem>
+    </Seed>
+  );
+};
+
+// Bracket Data for Qatar World Cup 2022
 const rounds: IRoundProps[] = [
   {
-    title: 'Group A',
+    title: 'Round of 16',
     seeds: [
-      {
-        id: 1,
-        date: new Date().toDateString(),
-        teams: [{ name: 'Team A' }, { name: 'Team B' }],
-      },
-      {
-        id: 2,
-        date: new Date().toDateString(),
-        teams: [{ name: 'Team C' }, { name: 'Team D' }],
-      },
+      { id: 1, date: '2022-12-09', teams: [{ name: 'Croatia', countryCode: 'hr' }, { name: 'Brazil', countryCode: 'br' }] },
+      { id: 2, date: '2022-12-09', teams: [{ name: 'Netherlands', countryCode: 'nl' }, { name: 'Argentina', countryCode: 'ar' }] },
+      { id: 3, date: '2022-12-10', teams: [{ name: 'Morocco', countryCode: 'ma' }, { name: 'Portugal', countryCode: 'pt' }] },
+      { id: 4, date: '2022-12-10', teams: [{ name: 'England', countryCode: 'gb' }, { name: 'France', countryCode: 'fr' }] },
     ],
   },
   {
-    title: 'Group B',
+    title: 'Semis',
     seeds: [
-      {
-        id: 3,
-        date: new Date().toDateString(),
-        teams: [{ name: 'Team A' }, { name: 'Team C' }],
-      },
+      { id: 5, date: '2022-12-13', teams: [{ name: 'Argentina', countryCode: 'ar' }, { name: 'Croatia', countryCode: 'hr' }] },
+      { id: 6, date: '2022-12-14', teams: [{ name: 'France', countryCode: 'fr' }, { name: 'Morocco', countryCode: 'ma' }] },
+    ],
+  },
+  {
+    title: 'Final',
+    seeds: [
+      { id: 7, date: '2022-12-18', teams: [{ name: 'Argentina', countryCode: 'ar' }, { name: 'France', countryCode: 'fr' }] },
     ],
   },
 ];
 
+// Typography Page Component
 const TypographyPage = () => {
   return (
-    <PageContainer title="Typography" description="this is Typography">
-      <Bracket rounds={rounds} />
-      <Grid container spacing={3}>
-        <Grid item sm={12}>
-          <DashboardCard title="Default Text">
-            <Grid container spacing={3}>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h1">h1. Heading</Typography>
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 30 | line-height: 45 | font weight: 500
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h2">h2. Heading</Typography>
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 24 | line-height: 36 | font weight: 500
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h3">h3. Heading</Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 21 | line-height: 31.5 | font weight: 500
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h4">h4. Heading</Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 18 | line-height: 27 | font weight: 500
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h5">h5. Heading</Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 16 | line-height: 24 | font weight: 500
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h6">h6. Heading</Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 14 | line-height: 21 | font weight: 500
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="subtitle1">
-                      subtitle1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis
-                      tenetur
-                    </Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 16 | line-height: 28 | font weight: 400
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="subtitle2">
-                      subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis
-                      tenetur
-                    </Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 14 | line-height: 21 | font weight: 400
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="body1">
-                      body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    </Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 16 | line-height: 24 | font weight: 400
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="body2">
-                      body2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    </Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 14 | line-height: 20 | font weight: 400
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="caption">
-                      caption. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis
-                      tenetur
-                    </Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 12 | line-height: 19 | font weight: 400
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="overline">
-                      overline. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis
-                      tenetur
-                    </Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      font size: 12 | line-height: 31 | font weight: 400
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-            </Grid>
-
-          </DashboardCard>
-        </Grid>
-        <Grid item sm={12}>
-          <DashboardCard title="Default Text">
-            <Grid container spacing={3}>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h5" color="textprimary">
-                      Text Primary
-                    </Typography>
-
-                    <Typography variant="body1" color="textprimary">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h5" color="textSecondary">
-                      Text Secondary
-                    </Typography>
-
-                    <Typography variant="body1" color="textSecondary">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ color: (theme) => theme.palette.info.main }}>
-                      Text Info
-                    </Typography>
-
-                    <Typography variant="body1" sx={{ color: (theme) => theme.palette.info.main }}>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ color: (theme) => theme.palette.primary.main }}>
-                      Text Primary
-                    </Typography>
-
-                    <Typography variant="body1" sx={{ color: (theme) => theme.palette.primary.main }}>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ color: (theme) => theme.palette.warning.main }}>
-                      Text Warning
-                    </Typography>
-
-                    <Typography variant="body1" sx={{ color: (theme) => theme.palette.warning.main }}>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ color: (theme) => theme.palette.error.main }}>
-                      Text Error
-                    </Typography>
-
-                    <Typography variant="body1" sx={{ color: (theme) => theme.palette.error.main }}>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-              <Grid item sm={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ color: (theme) => theme.palette.success.main }}>
-                      Text Success
-                    </Typography>
-
-                    <Typography variant="body1" sx={{ color: (theme) => theme.palette.success.main }}>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    </Typography>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-            </Grid>
-          </DashboardCard>
-        </Grid>
-      </Grid >
+    <PageContainer title="Typography" description="2022 FIFA World Cup Bracket">
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Bracket rounds={rounds} renderSeedComponent={CustomSeed} mobileBreakpoint={768} />
+      </div>
     </PageContainer>
   );
 };
