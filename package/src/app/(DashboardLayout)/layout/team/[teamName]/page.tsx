@@ -80,23 +80,28 @@ const TeamPage = () => {
 
   return (
     <Box sx={{ padding: '20px' }}>
-      {/* Flag Banner */}
+      {/* Flag as a Banner with Text on Top */}
       <Box
         sx={{
           width: '100%',
-          height: '400px',
+          height: '300px',
           backgroundColor: 'lightgray',
-          backgroundImage: `url(https://flagcdn.com/w320/${teamDetails.countryCode.toLowerCase()}.png)`, // Flag image URL
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          borderRadius: '8px',
-          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+          position: 'relative', // Make sure the text is positioned on top of the flag
           display: 'flex',
-          justifyContent: 'flex-start', // Align left
-          alignItems: 'flex-end', // Align bottom
-          padding: '20px', // Adds some padding to the left/bottom
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
+        {/* FlagIcon from react-flag-kit */}
+        <FlagIcon
+          code={teamDetails.countryCode}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover', // Make flag cover the entire area
+            position: 'absolute',
+          }}
+        />
         {/* Country Name at Bottom-Left of the Flag */}
         <Typography
           variant="h1"
@@ -105,6 +110,9 @@ const TeamPage = () => {
             fontWeight: 'bold',
             textTransform: 'uppercase',
             textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)',
+            position: 'absolute',
+            bottom: '20px', // Align text to the bottom
+            left: '20px', // Align text to the left
           }}
         >
           {teamDetails.name}
