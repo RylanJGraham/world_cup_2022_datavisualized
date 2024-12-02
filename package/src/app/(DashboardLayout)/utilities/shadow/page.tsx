@@ -10,9 +10,9 @@ import PageContainer from '@/app/(DashboardLayout)/components/container/PageCont
 import { Tabs, Tab } from '@mui/material';
 import Papa from 'papaparse';
 import { FlagIcon } from 'react-flag-kit';
+import { useRouter } from 'next/navigation';  // For client-side navigation
 
-// Mapping team names to country codes (ISO 3166-1 alpha-2)
-const countryCodeMapping: { [key: string]: string } = {
+const countryCodeMapping = {
   Qatar: 'QA',
   Ecuador: 'EC',
   England: 'GB',
@@ -48,46 +48,45 @@ const countryCodeMapping: { [key: string]: string } = {
 };
 
 const Shadow = () => {
-  const [selectedTab, setSelectedTab] = useState(0); // State for handling the selected tab
+  const [selectedTab, setSelectedTab] = useState(0);
   const [teams, setTeams] = useState({
-    all: [] as { name: string; countryCode: string }[],
-    quarters: [] as { name: string; countryCode: string }[],
-    semis: [] as { name: string; countryCode: string }[],
-    finals: [] as { name: string; countryCode: string }[],
+    all: [],
+    quarters: [],
+    semis: [],
+    finals: [],
   });
 
-  const normalizeTeamName = (name: string) => name.trim().toLowerCase();
+  const router = useRouter();  // useRouter hook
 
-  const parseCSVData = async (csvPath: string) => {
+  const normalizeTeamName = (name) => name.trim().toLowerCase();
+
+  const parseCSVData = async (csvPath) => {
     const response = await fetch(csvPath);
     const csvData = await response.text();
 
     const parsedTeams = {
-      all: [] as { name: string; countryCode: string }[],
-      quarters: [] as { name: string; countryCode: string }[],
-      semis: [] as { name: string; countryCode: string }[],
-      finals: [] as { name: string; countryCode: string }[],
+      all: [],
+      quarters: [],
+      semis: [],
+      finals: [],
     };
 
     Papa.parse(csvData, {
       header: true,
       skipEmptyLines: true,
       complete: (result) => {
-        result.data.forEach((row: any) => {
+        result.data.forEach((row) => {
           const team1 = normalizeTeamName(row['team1']);
           const team2 = normalizeTeamName(row['team2']);
           const category = row['category'];
 
-          const team1CountryCode =
-            countryCodeMapping[
-              Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team1) || ''
-            ] || '??';
-          const team2CountryCode =
-            countryCodeMapping[
-              Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team2) || ''
-            ] || '??';
+          const team1CountryCode = countryCodeMapping[
+            Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team1) || ''
+          ] || '??';
+          const team2CountryCode = countryCodeMapping[
+            Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team2) || ''
+          ] || '??';
 
-          // Assign teams to their respective rounds
           switch (category) {
             case 'Group A':
             case 'Group B':
@@ -132,34 +131,40 @@ const Shadow = () => {
     parseCSVData('/data/Fifa_world_cup_matches.csv');
   }, []);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
 
-  const TeamCard = ({ name, countryCode }: { name: string; countryCode: string }) => (
-    <Card
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        p: 2,
-        cursor: 'pointer',
-        transition: 'transform 0.3s, background-color 0.3s',
-        '&:hover': {
-          transform: 'scale(1.05)',
-          backgroundColor: 'primary.light',
-        },
-      }}
-      onClick={() => alert(`More info about ${name}`)}
-    >
-      <FlagIcon code={countryCode} style={{ width: '100px', height: 'auto', marginBottom: '10px' }} />
-      <CardContent sx={{ textAlign: 'center' }}>
-        <Typography component="div" variant="h6">
-          {name}
-        </Typography>
-      </CardContent>
-    </Card>
-  );
+  const TeamCard = ({ name, countryCode }) => {
+    const handleClick = () => {
+      router.push(`/layout/team/${encodeURIComponent(name.toLowerCase())}`); // Navigate to team page with the name
+    };
+
+    return (
+      <Card
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          p: 2,
+          cursor: 'pointer',
+          transition: 'transform 0.3s, background-color 0.3s',
+          '&:hover': {
+            transform: 'scale(1.05)',
+            backgroundColor: 'primary.light',
+          },
+        }}
+        onClick={handleClick}
+      >
+        <FlagIcon code={countryCode} style={{ width: '100px', height: 'auto', marginBottom: '10px' }} />
+        <CardContent sx={{ textAlign: 'center' }}>
+          <Typography component="div" variant="h6">
+            {name}
+          </Typography>
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <PageContainer title="Shadow" description="Country Teams with Flags">
@@ -168,7 +173,7 @@ const Shadow = () => {
           value={selectedTab}
           onChange={handleTabChange}
           centered
-          sx={{ paddingBottom: 3 }} // Added padding at the bottom
+          sx={{ paddingBottom: 3 }}
         >
           <Tab label="All" />
           <Tab label="Quarters" />
