@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Box, Typography, Container, Tab, Tabs, List, ListItem, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
 import { FlagIcon } from 'react-flag-kit';
+import SportsEsports from '@mui/icons-material/SportsEsports';
 import { SportsSoccer, Flag as FlagIconMUI } from '@mui/icons-material'; // Import Material-UI Icons
 import {
   ScatterChart,
@@ -14,6 +15,8 @@ import {
   Tooltip,
   BarChart,
   Bar,
+  Label,
+  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
 } from 'recharts';
 
 // Mapping team names to country codes (ISO 3166-1 alpha-2)
@@ -68,6 +71,34 @@ const possessionData = [
   { game: 'ARGENTINA vs AUSTRALIA', argentina: 61, opponent: 39, opponentTeam: 'Australia', stage: 'Round of 16' },
   { game: 'NETHERLANDS vs ARGENTINA', argentina: 55, opponent: 45, opponentTeam: 'Netherlands', stage: 'Quarter Final' },
 ];
+
+const radarData = [
+  {
+    field: 'Crosses', Argentina: 10, Brazil: 12, France: 11,
+  },
+  {
+    field: 'Switches', Argentina: 13, Brazil: 5, France: 7,
+  },
+  {
+    field: 'Corners', Argentina: 7, Brazil: 8, France: 6,
+  },
+  {
+    field: 'Free Kicks', Argentina: 22, Brazil: 15, France: 8,
+  },
+  {
+    field: 'Penalties', Argentina: 3, Brazil: 2, France: 4,
+  },
+  {
+    field: 'Goals Prevented', Argentina: 10, Brazil: 8, France: 4,
+  },
+  {
+    field: 'Shots', Argentina: 14, Brazil: 8, France: 25,
+  },
+];
+
+
+
+
 
 // Custom flag bar renderer for stacked bar chart
 const FlagBarRenderer = ({ x, y, width, height, countryCode }: any) => {
@@ -127,22 +158,41 @@ const TeamPage = () => {
 
   const stages = ['All', 'Group', 'Round of 16', 'Quarter Final'];
 
+  const graphOptions = [
+  { name: 'passes', label: 'Pass Total vs Completions', icon: <SportsSoccer sx={{fontSize: '2rem'}} /> },
+  { name: 'possession', label: 'Game Possession Statistics', icon: <FlagIconMUI sx={{fontSize: '2rem'}} /> },
+  { name: 'radar', label: 'Team Comparison (Radar)', icon: <SportsEsports sx={{fontSize: '2rem'}} /> }, // Radar chart option
+  // Add new graph types here as needed
+];
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: number, chartType: string) => {
     const stageFilter = stages[newValue];
-    if (chartType === 'passes') {
-      setTabValue(newValue);
-      setFilteredPassesData(
-        stageFilter === 'All'
-          ? argentinaPassesData
-          : argentinaPassesData.filter((item) => item.stage === stageFilter)
-      );
-    } else {
-      setTabValue(newValue);
-      setFilteredPossessionData(
-        stageFilter === 'All'
-          ? possessionData
-          : possessionData.filter((item) => item.stage === stageFilter)
-      );
+  
+    // Create a mapping of chart types to their respective data
+    const dataMapping = {
+      passes: argentinaPassesData,
+      possession: possessionData,
+      // Add new chart types here in the future
+    };
+  
+    // Update state based on the chart type selected
+    if (dataMapping[chartType]) {
+      if (stageFilter === 'All') {
+        setTabValue(newValue);
+        if (chartType === 'passes') {
+          setFilteredPassesData(dataMapping[chartType]);
+        } else if (chartType === 'possession') {
+          setFilteredPossessionData(dataMapping[chartType]);
+        }
+      } else {
+        const filteredData = dataMapping[chartType].filter((item) => item.stage === stageFilter);
+        setTabValue(newValue);
+        if (chartType === 'passes') {
+          setFilteredPassesData(filteredData);
+        } else if (chartType === 'possession') {
+          setFilteredPossessionData(filteredData);
+        }
+      }
     }
   };
 
@@ -211,8 +261,17 @@ const TeamPage = () => {
         </Typography>
       </Box>
 
+      <Typography
+        variant="h5"
+        sx={{
+          marginTop: '10px', 
+        }}
+      >
+      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+      </Typography>
+
       {/* Main Content */}
-      <Box sx={{ display: 'flex', paddingTop: '20px' }}>
+      <Box sx={{ display: 'flex', paddingTop: '20px'}}>
         {/* Left Panel with List */}
         <Box
           sx={{
@@ -221,104 +280,147 @@ const TeamPage = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
+            marginTop: '20px'
           }}
         >
-          <List>
-            <ListItemButton
-              onClick={() => handleListItemClick('passes')}
-              sx={{
-                backgroundColor: selectedGraph === 'passes' ? 'primary.main' : 'transparent',
-                '&:hover': { backgroundColor: 'primary.main' },
-                '&.Mui-selected': { backgroundColor: 'primary.main' },
-                color: selectedGraph === 'passes' ? 'white' : 'black',
-              }}
-            >
-              <ListItemIcon>
-                <SportsSoccer sx={{ color: selectedGraph === 'passes' ? 'white' : 'black' }} />
-              </ListItemIcon>
-              <ListItemText 
-                primary="Passes Scatter" 
-                sx={{ 
-                  color: selectedGraph === 'passes' ? 'white' : 'black', 
-                  fontSize: '2.2rem'  // Increase the font size here
-                }} 
-              />
-            </ListItemButton>
-            <ListItemButton
-              onClick={() => handleListItemClick('possession')}
-              sx={{
-                backgroundColor: selectedGraph === 'possession' ? 'primary.main' : 'transparent',
-                '&:hover': { backgroundColor: 'primary.main' },
-                '&.Mui-selected': { backgroundColor: 'primary.main' },
-                color: selectedGraph === 'possession' ? 'white' : 'black',
-              }}
-            >
-              <ListItemIcon>
-                <FlagIconMUI sx={{ color: selectedGraph === 'possession' ? 'white' : 'black' }} />
-              </ListItemIcon>
-              <ListItemText 
-                primary="Possession Stacked Bar" 
-                sx={{ 
-                  color: selectedGraph === 'possession' ? 'white' : 'black', 
-                  fontSize: '1.2rem'  // Increase the font size here
-                }} 
-              />
-            </ListItemButton>
+          <Typography
+            variant="h2"
+            align="left"
+            sx={{ marginBottom: '0px' }}
+          >
+            Explore Their Tournament Journey
+          </Typography>
+          <List
+            sx={{
+              '& .MuiListItemButton:not(:last-child)': {
+                borderBottom: '1px solid #ddd',
+              },
+              padding: '10px',
+              borderRadius: '10px',
+              backgroundColor: 'white',
+              borderBottom: '2px solid rgba(0, 0, 0, 0.1)',
+            }}
+          >
+              {graphOptions.map((graph) => (
+                <ListItemButton
+                  key={graph.name}
+                  onClick={() => handleListItemClick(graph.name)}
+                  sx={{
+                    margin: '10px 0',
+                    borderRadius: '15px',
+                    padding: '15px 20px',
+                    backgroundColor: selectedGraph === graph.name ? 'primary.main' : 'white',
+                    '&:hover': { backgroundColor: selectedGraph === graph.name ? 'primary.dark' : '#f5f5f5' },
+                    color: selectedGraph === graph.name ? 'white' : 'black',
+                  }}
+                >
+                  <ListItemIcon>{graph.icon}</ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: selectedGraph === graph.name ? 'white' : 'black',
+                          fontSize: '1.2rem',
+                          fontWeight: 600,
+                        }}
+                      >
+                        {graph.label}
+                      </Typography>
+                    }
+                  />
+                </ListItemButton>
+              ))}
           </List>
         </Box>
 
         {/* Right Panel with Graphs */}
         <Box sx={{ flex: 1 }}>
-          {selectedGraph === 'passes' && (
-            <Container sx={{ marginTop: '40px' }}>
-              <Tabs value={tabValue} onChange={(e, newValue) => handleTabChange(e, newValue, 'passes')} centered>
-                {stages.map((stage, index) => (
-                  <Tab label={stage} key={index} sx={{ fontSize: '1.2rem' }} />  // Increase the font size here
-                ))}
-              </Tabs>
-              <Typography variant="h2" align="center" gutterBottom>
-                Passes Completed vs Total Passes
-              </Typography>
-              <ScatterChart width={800} height={400}>
-                <CartesianGrid />
-                <XAxis type="number" dataKey="total_passes" name="Total Passes" />
-                <YAxis type="number" dataKey="completed_passes" name="Completed Passes" />
-                <Tooltip content={<CustomTooltip />} />
-                <Scatter name="Argentina" data={filteredPassesData} fill="#82ca9d" />
-              </ScatterChart>
-            </Container>
-          )}
+          {graphOptions.map((graph) => (
+            selectedGraph === graph.name && (
+              <Container key={graph.name} sx={{ marginTop: '40px' }}>
+                <Tabs
+                  value={tabValue}
+                  onChange={(e, newValue) => handleTabChange(e, newValue, graph.name)}
+                  centered
+                >
+                  {stages.map((stage, index) => (
+                    <Tab label={stage} key={index} sx={{ fontSize: '1.2rem' }} />
+                  ))}
+                </Tabs>
 
-          {selectedGraph === 'possession' && (
-            <Container sx={{ marginTop: '40px' }}>
-              <Tabs value={tabValue} onChange={(e, newValue) => handleTabChange(e, newValue, 'possesion')} centered>
-                {stages.map((stage, index) => (
-                  <Tab label={stage} key={index} sx={{ fontSize: '1.2rem' }} />  // Increase the font size here
-                ))}
-              </Tabs>
-              <Typography variant="h5" align="center" gutterBottom>
-                Possession by Teams
-              </Typography>
-              <BarChart width={800} height={400} data={filteredPossessionData}>
-                <CartesianGrid />
-                <XAxis type="category" dataKey="game" name="Game"/>
-                <YAxis type="number" />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar
-                  dataKey="argentina"
-                  stackId="a"
-                  shape={(props) => <FlagBarRenderer {...props} countryCode={countryCodeMapping['Argentina']} />}
-                />
-                <Bar
-                  dataKey="opponent"
-                  stackId="a"
-                  shape={(props) => (
-                    <FlagBarRenderer {...props} countryCode={countryCodeMapping[props.payload.opponentTeam]} />
-                  )}
-                />
-              </BarChart>
-            </Container>
-          )}
+                <Typography variant="h3" align="center" gutterBottom sx={{ marginTop: '20px' }}>
+                  {graph.label}
+                </Typography>
+
+                {graph.name === 'passes' && (
+                  <ScatterChart width={800} height={400}>
+                    <CartesianGrid />
+                    <XAxis type="number" dataKey="total_passes" name="Total Passes">
+                      <Label value="Total Passes" offset={0} position="insideBottom" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
+                    </XAxis>
+                    <YAxis type="number" dataKey="completed_passes" name="Completed Passes">
+                      <Label value="Completed Passes" angle={-90} position="insideLeft" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
+                    </YAxis>
+                    <Tooltip content={<CustomTooltip />} />
+                    <Scatter name="Argentina" data={filteredPassesData} fill="#82ca9d" />
+                  </ScatterChart>
+                )}
+
+                {selectedGraph === 'radar' && (
+                  <Container sx={{ marginTop: '40px' }}>
+                    <Tabs value={tabValue} onChange={(e, newValue) => handleTabChange(e, newValue, 'radar')} centered>
+                      {stages.map((stage, index) => (
+                        <Tab label={stage} key={index} sx={{ fontSize: '1.2rem' }} />
+                      ))}
+                    </Tabs>
+                    <Typography variant="h3" align="center" gutterBottom sx={{ marginTop: '20px' }}>
+                      Team Comparison (Radar)
+                    </Typography>
+                    <RadarChart outerRadius={150} width={800} height={400} data={radarData}>
+                      <PolarGrid />
+                      
+                      {/* Define 9 axes */}
+                      <PolarAngleAxis dataKey="field" />
+                      
+                      {/* Define radius axis */}
+                      <PolarRadiusAxis domain={[0, 12]} />
+                      
+                      {/* Radar for each team */}
+                      <Radar name="Argentina" dataKey="Argentina" stroke="#ff0000" fill="#ff0000" fillOpacity={0.3} />
+                      <Radar name="Brazil" dataKey="Brazil" stroke="#0000ff" fill="#0000ff" fillOpacity={0.3} />
+                      <Radar name="France" dataKey="France" stroke="#00ff00" fill="#00ff00" fillOpacity={0.3} />
+                    </RadarChart>
+                  </Container>
+                )}
+
+                {graph.name === 'possession' && (
+                  <BarChart width={800} height={400} data={filteredPossessionData}>
+                    <CartesianGrid />
+                    <XAxis type="category" dataKey="game" name="Game">
+                      <Label value="Games" offset={0} position="insideBottom" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
+                    </XAxis>
+                    <YAxis type="number">
+                      <Label value="Possession (%)" angle={-90} position="insideLeft" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
+                    </YAxis>
+                    <Tooltip content={<CustomTooltip />} />
+                    <Bar
+                      dataKey="argentina"
+                      stackId="a"
+                      shape={(props) => <FlagBarRenderer {...props} countryCode={countryCodeMapping['Argentina']} />}
+                    />
+                    <Bar
+                      dataKey="opponent"
+                      stackId="a"
+                      shape={(props) => (
+                        <FlagBarRenderer {...props} countryCode={countryCodeMapping[props.payload.opponentTeam]} />
+                      )}
+                    />
+                  </BarChart>
+                )}
+              </Container>
+            )
+          ))}
         </Box>
       </Box>
     </Box>
