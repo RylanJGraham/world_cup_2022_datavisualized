@@ -1,13 +1,11 @@
-'use client';
-
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Button, List, ListItem } from '@mui/material';
+import { Box, Typography, Button, List, ListItem, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import CountryFlag from '@/app/(DashboardLayout)/components/flags/FlagIcon';
 
 const Heatmap = ({ data }) => {
   const theme = useTheme();
-  const [selectedTeam, setSelectedTeam] = useState(0); // 0 for team1, 1 for team2
+  const [selectedView, setSelectedView] = useState(0); // 0 for team1, 1 for team2, 2 for compare
   const [mounted, setMounted] = useState(false); // To prevent SSR mismatch
 
   useEffect(() => {
@@ -20,22 +18,48 @@ const Heatmap = ({ data }) => {
 
   const zones = [
     { name: 'Left Channel', team1: data.leftChannel.team1, team2: data.leftChannel.team2 },
-    { name: 'Left Inside Channel', team1: data.leftInsideChannel.team1, team2: data.leftInsideChannel.team2 },
     { name: 'Central Channel', team1: data.centralChannel.team1, team2: data.centralChannel.team2 },
-    { name: 'Right Inside Channel', team1: data.rightInsideChannel.team1, team2: data.rightInsideChannel.team2 },
     { name: 'Right Channel', team1: data.rightChannel.team1, team2: data.rightChannel.team2 },
   ];
 
-  // Extract team names dynamically from data
   const teamNames = {
-    team1: data.team1Name || 'Team 1', // Default fallback if the name is missing
-    team2: data.team2Name || 'Team 2', // Default fallback if the name is missing
+    team1: data.team1Name || 'Team 1',
+    team2: data.team2Name || 'Team 2',
   };
 
-  // Adjusting the color logic to a much lighter blue gradient
-  const getHeatmapColor = (value) => {
-    const blue = Math.max(0, 240 - value * 5.5); // Lighter shades of blue
-    return `rgb(100, 0, ${blue})`; // Lighter blue shades with greenish tint
+  const barColors = {
+    team1: '#8884d8',
+    team2: '#82ca9d',
+  };
+
+  const generateXAxisValues = (maxValue) => {
+  const values = [0]; // Start with 0
+  for (let i = 10; i <= maxValue; i += 10) {
+    values.push(i);
+  }
+  return values;
+};
+
+  const getTooltipContent = (teamName, attempts, channelName) => {
+    return (
+      <Box sx={{
+        borderRadius: '8px', 
+        textAlign: 'center'
+      }}>
+        {/* Flag */}
+        <CountryFlag country={teamName} size={40} />
+        
+        {/* Team Name */}
+        <Typography variant="h6" sx={{ fontWeight: 'bold', marginTop: '2px' }}>
+          {teamName}
+        </Typography>
+
+        {/* Attempts Info */}
+        <Typography variant="body1" sx={{ marginTop: '2px' }}>
+          Attempts in <strong>{channelName}</strong>: <strong>{attempts}</strong>
+        </Typography>
+      </Box>
+    );
   };
 
   return (
@@ -43,101 +67,231 @@ const Heatmap = ({ data }) => {
       <Typography variant="h4" sx={{ textAlign: 'left', marginBottom: '8px' }}>
         Possession Locations
       </Typography>
-      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'lightgrey', marginBottom: '0px' }} />
+      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'lightgrey', marginBottom: '16px' }} />
 
-      <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: '16px', width: '100%' }}>
-        {/* Sidebar: Team Toggle Buttons */}
+      {/* Sidebar */}
+      <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <Box sx={{
-            width: '200px', // Adjust width for the button list
-            marginRight: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
+          width: '200px',
+          marginRight: '20px',
+          display: 'flex',
+          flexDirection: 'column',
         }}>
-          <Typography variant="h4" sx={{ marginBottom: '10px', textAlign: 'left' }}>
-            Compare Teams
-          </Typography>
-          <List 
-          sx={{
-            '& .MuiListItemButton:not(:last-child)': {
-              borderBottom: '1px solid #ddd',
-            },
-            padding: '10px',
-            borderRadius: '10px',
-            backgroundColor: 'white',
-            borderBottom: '2px solid rgba(0, 0, 0, 0.1)',
-          }}>
+          <List>
             <ListItem disablePadding>
               <Button
-                sx={{
-                    margin: '10px 0',
-                    padding: '15px 20px',
-                }}
+                sx={{ margin: '0px 0', padding: '10px 15px' }}
                 fullWidth
-                variant={selectedTeam === 0 ? 'contained' : 'outlined'}
-                onClick={() => setSelectedTeam(0)}
+                variant={selectedView === 0 ? 'contained' : 'outlined'}
+                onClick={() => setSelectedView(0)}
                 startIcon={<CountryFlag country={teamNames.team1} size={40} />}
               >
-                <Typography variant="h4" sx={{ textAlign: 'left' }}>
+                <Typography variant="h5">
                   {teamNames.team1}
                 </Typography>
               </Button>
             </ListItem>
             <ListItem disablePadding>
               <Button
-                sx={{
-                    margin: '10px 0',
-                    padding: '15px 20px',
-                }}
+                sx={{ margin: '10px 0', padding: '10px 15px' }}
                 fullWidth
-                variant={selectedTeam === 1 ? 'contained' : 'outlined'}
-                onClick={() => setSelectedTeam(1)}
+                variant={selectedView === 1 ? 'contained' : 'outlined'}
+                onClick={() => setSelectedView(1)}
                 startIcon={<CountryFlag country={teamNames.team2} size={40} />}
               >
-                <Typography variant="h4" sx={{ textAlign: 'left' }}>
+                <Typography variant="h5">
                   {teamNames.team2}
+                </Typography>
+              </Button>
+            </ListItem>
+            <ListItem disablePadding>
+              <Button
+                sx={{ margin: '0px 0', padding: '10px 15px' }}
+                fullWidth
+                variant={selectedView === 2 ? 'contained' : 'outlined'}
+                onClick={() => setSelectedView(2)}
+              >
+                <Typography variant="h5">
+                  Compare
                 </Typography>
               </Button>
             </ListItem>
           </List>
         </Box>
 
-        {/* Heatmap Display with Football Pitch Background */}
+        {/* Heatmap Display */}
+        <Box sx={{ marginTop: '20px', width: '100%' }}>
         <Box sx={{
           flex: 1,
           display: 'grid',
-          gridTemplateRows: `repeat(${zones.length}, 1fr)`,
+          gridTemplateRows: `repeat(${zones.length}, auto)`,
           gap: '20px',
-          height: '300px',  // Ensures the heatmap height is properly set
-          overflowY: 'auto', // Ensures scrolling is possible if needed
           backgroundImage: 'url(/images/pitch/football-pitch.png)', // Replace with your image path
-          backgroundSize: 'cover', // Makes sure the image covers the entire area
-          backgroundPosition: 'center', // Centers the image
-          borderRadius: '10px', // Optional, to round the corners
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          borderRadius: '10px',
+          padding: '10px',
         }}>
           {zones.map((zone, index) => (
-            <Box
-              key={index}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                backgroundColor: getHeatmapColor(selectedTeam === 0 ? zone.team1 : zone.team2),
-                padding: '10px',
-                borderRadius: '8px',
-                color: 'white',
-                opacity: 0.8, // Optional: Adds transparency to the background to ensure the pitch is visible
-              }}
-            >
-              <Typography variant="h5" sx={{ fontWeight: 'bold', color:'primary.main' }}>
+            <Box key={index} sx={{ position: 'relative', marginBottom: '10px', marginTop: '20px' }}>
+              {/* Caption Above the Zone */}
+              <Typography
+                variant="h4"
+                sx={{
+                  position: 'absolute',
+                  top: '-20px',
+                  left: '0px',
+                  fontWeight: 'bold',
+                  color: 'white',
+                  textShadow: '2px 2px 2px rgba(0, 0, 0, 1.0)',
+                  maxWidth: '95%',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                }}
+              >
                 {zone.name}
               </Typography>
-              <Typography variant="h5" sx={{color:'primary.main'}}>
-                {selectedTeam === 0 ? zone.team1 : zone.team2}
-              </Typography>
+              <Box sx={{ width: '100%', height: '2px', backgroundColor: 'white', marginBottom: '4px' }} />
+              {/* Team Bar Sections */}
+              {selectedView === 0 || selectedView === 1 ? (
+              <Box
+                sx={{
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  height: '100%',
+                  backgroundColor: 'rgba(0, 0, 0, 0.0)',
+                  borderRadius: '8px',
+                }}
+              >
+                {/* Tooltip wrapped around individual bar */}
+                <Tooltip
+                  title={getTooltipContent(
+                    selectedView === 0 ? teamNames.team1 : teamNames.team2,
+                    selectedView === 0 ? zone.team1 : zone.team2,
+                    zone.name
+                  )}
+                  arrow
+                >
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: `${selectedView === 0 ? zone.team1 : zone.team2}%`,
+                      height: '100%',
+                      backgroundColor: selectedView === 0 ? barColors.team1 : barColors.team2,
+                      borderRadius: '8px',
+                      zIndex: 1,
+                    }}
+                  />
+                </Tooltip>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    position: 'relative',
+                    zIndex: 2,
+                    justifyContent: 'end',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    marginLeft: '10px',
+                  }}
+                >
+                  {selectedView === 0 ? zone.team1 : zone.team2}
+                </Typography>
+              </Box>
+            ) : (
+              /* Compare View: Team1 and Team2 Rows */
+              <Box sx={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: '5px' }}>
+                {/* Team1 Row */}
+                <Tooltip
+                  title={getTooltipContent(teamNames.team1, zone.team1, zone.name)}
+                  arrow
+                >
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      height: '20px',
+                      width: `${zone.team1}%`,
+                      backgroundColor: barColors.team1,
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      paddingLeft: '10px',
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {zone.team1}
+                    </Typography>
+                  </Box>
+                </Tooltip>
+
+                {/* Team2 Row */}
+                <Tooltip
+                  title={getTooltipContent(teamNames.team2, zone.team2, zone.name)}
+                  arrow
+                >
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      height: '20px',
+                      width: `${zone.team2}%`,
+                      backgroundColor: barColors.team2,
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      paddingLeft: '10px',
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {zone.team2}
+                    </Typography>
+                  </Box>
+                </Tooltip>
+              </Box>
+            )}
             </Box>
           ))}
+        </Box>
+          {/* X-Axis Container */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '8px' }}>
+            
+            {/* X-Axis Values (Notches) */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+              {generateXAxisValues(100).map((value, index) => (
+                <Box key={index} sx={{ width: '10px', textAlign: 'center', paddingLeft: '6px' }}>
+                  <Typography variant="body1">{value}</Typography>
+                </Box>
+              ))}
+            </Box>
+
+            {/* X-Axis Title */}
+            <Typography
+              variant="h5"
+              sx={{
+                marginTop: '6px',
+                fontWeight: 'bold',
+              }}
+            >
+              Attacks within Given Channel
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>

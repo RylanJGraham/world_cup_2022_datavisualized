@@ -21,11 +21,13 @@ const MatchupPage = () => {
       name: 'Argentina',
       goals: 3,
       shotAttempts: 10,
+      shotAccuracy: '14%',
     },
     team2: {
       name: 'France',
       goals: 1,
       shotAttempts: 8,
+      shotAccuracy: '33%',
     }
   };
 
@@ -33,9 +35,7 @@ const MatchupPage = () => {
     team1Name: 'Argentina', // Name for Team 1
     team2Name: 'France',
     leftChannel: { team1: 20, team2: 15 },
-    leftInsideChannel: { team1: 25, team2: 20 },
     centralChannel: { team1: 40, team2: 35 },
-    rightInsideChannel: { team1: 30, team2: 25 },
     rightChannel: { team1: 15, team2: 10 },
   };
 

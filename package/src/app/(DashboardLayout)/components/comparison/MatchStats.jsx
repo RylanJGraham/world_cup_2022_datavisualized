@@ -20,20 +20,26 @@ const MatchStats = ({ matchData }) => {
   const arrowDirection = winner === 'team1' ? <ArrowBackIcon sx={{ color: theme.palette.primary.main, fontSize:40 }} /> : winner === 'team2' ? <ArrowForwardIcon sx={{ color: theme.palette.primary.main }} /> : null;
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '40px', marginTop: '40px' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '40px', marginTop: '20px', marginBottom: '20px' }}>
       {/* Team 1 Column */}
       <Box sx={{ textAlign: 'left' }}>
-        <Box sx={{alignItems: 'left', display: 'flex', direction: 'row' }}>
+        <Box sx={{alignItems: 'center', display: 'flex', direction: 'row'}}>
             <SportsSoccerIcon sx={{ fontSize: 80, color: theme.palette.primary.main }} />
             <Typography variant="h1" sx={{ fontWeight: 'bold', fontSize: 80, }}>
             {team1.goals}
             </Typography>
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'left', gap: '8px', marginTop: '8px' }}>
-          <Typography variant="body1">Shot Attempts:</Typography>
-          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'left', gap: '4px', marginTop: '8px' }}>
+          <Typography variant="h4">Shot Attempts:</Typography>
+          <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
             {team1.shotAttempts}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'left', gap: '4px', marginTop: '4px' }}>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>Accuracy:</Typography>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>
+            {team1.shotAccuracy}
           </Typography>
         </Box>
       </Box>
@@ -48,14 +54,22 @@ const MatchStats = ({ matchData }) => {
 
       {/* Team 2 Column */}
       <Box sx={{ textAlign: 'right' }}>
-        <SportsSoccerIcon sx={{ fontSize: 80, color: theme.palette.primary.main }} />
-        <Typography variant="h2" sx={{ marginTop: '8px', fontWeight: 'bold' }}>
-          {team2.goals}
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'right', gap: '8px', marginTop: '8px' }}>
-          <Typography variant="body1">Shot Attempts:</Typography>
-          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+        <Box sx={{alignItems: 'center', display: 'flex', direction: 'row' }}>
+            <Typography variant="h1" sx={{ fontWeight: 'bold', fontSize: 80, }}>
+            {team2.goals}
+            </Typography>
+            <SportsSoccerIcon sx={{ fontSize: 80, color: theme.palette.primary.main }} />
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'right', gap: '4px', marginTop: '8px' }}>
+          <Typography variant="h4">Shot Attempts:</Typography>
+          <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
             {team2.shotAttempts}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'right', gap: '4px', marginTop: '4px' }}>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>Accuracy:</Typography>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>
+            {team2.shotAccuracy}
           </Typography>
         </Box>
       </Box>
