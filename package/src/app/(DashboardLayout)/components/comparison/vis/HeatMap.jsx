@@ -65,9 +65,9 @@ const Heatmap = ({ data }) => {
   return (
     <Box sx={{ marginTop: '20px', width: '100%' }}>
       <Typography variant="h4" sx={{ textAlign: 'left', marginBottom: '8px' }}>
-        Possession Locations
+        Attacking Locations - Bar Chart
       </Typography>
-      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'lightgrey', marginBottom: '16px' }} />
+      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '16px' }} />
 
       {/* Sidebar */}
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
@@ -120,7 +120,7 @@ const Heatmap = ({ data }) => {
         </Box>
 
         {/* Heatmap Display */}
-        <Box sx={{ marginTop: '20px', width: '100%' }}>
+        <Box sx={{ marginTop: '8px', width: '100%' }}>
         <Box sx={{
           flex: 1,
           display: 'grid',

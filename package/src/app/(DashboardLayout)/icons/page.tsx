@@ -4,9 +4,10 @@ import React from 'react';
 import { Container } from '@mui/material';
 import TeamMatchupBanner from '@/app/(DashboardLayout)/components/comparison/TeamMatchupBanner'; // Corrected import for TeamMatchupBanner
 import PossessionBar from '@/app/(DashboardLayout)/components/comparison/PossessionBar'; // Corrected import for PossessionBar
-import Heatmap from '@/app/(DashboardLayout)/components/comparison/data/HeatMap'; // Corrected import for PossessionBar
-import PolarChartComponent from '@/app/(DashboardLayout)/components/comparison/data/PolarChart';
+import Heatmap from '@/app/(DashboardLayout)/components/comparison/vis/HeatMap'; // Corrected import for PossessionBar
+import PolarChartComponent from '@/app/(DashboardLayout)/components/comparison/vis/PolarChart';
 import MatchStats from '@/app/(DashboardLayout)/components/comparison/MatchStats';
+import Goalscorers from '@/app/(DashboardLayout)/components/comparison/GoalScorers';
 
 const MatchupPage = () => {
   // Possession data
@@ -15,6 +16,17 @@ const MatchupPage = () => {
     france: 30, // France's possession percentage
     contested: 10, // Contested area percentage
   };
+
+  const players = {
+    team1: [
+      { firstName: 'Lionel', lastName: 'Messi', goals: 2, team: 'Argentina' },
+      { firstName: 'Ángel', lastName: 'Di María', goals: 1, team: 'Argentina' },
+    ],
+    team2: [
+      { firstName: 'Kylian', lastName: 'Mbappé', goals: 3, team: 'France' },
+    ]
+  };
+  
 
   const matchData = {
     team1: {
@@ -67,7 +79,6 @@ const MatchupPage = () => {
   };
 
 
-
   return (
     <Container maxWidth="lg" sx={{ marginTop: '40px' }}>
       {/* Banner */}
@@ -85,7 +96,9 @@ const MatchupPage = () => {
       {/* HeatMap */}
       <Heatmap data={heatmapData} />
 
-      
+      {/* Goal Scorers */}
+      <Goalscorers players={players} />
+
 
     </Container>
   );
