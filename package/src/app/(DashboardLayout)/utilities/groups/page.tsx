@@ -8,7 +8,7 @@ import MatchColumn from '@/app/(DashboardLayout)/components/Bracket/MatchColumn'
 import GroupCard from '@/app/(DashboardLayout)/components/Bracket/GroupCard';
 import { groupPoints, rounds } from '@/app/(DashboardLayout)/components/Bracket/data';
 
-const TypographyPage = () => {
+const Groups = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [selectedMatchId, setSelectedMatchId] = useState<number | null>(null);
 
@@ -56,4 +56,4 @@ const TypographyPage = () => {
   );
 };
 
-export default TypographyPage;
+export default Groups;

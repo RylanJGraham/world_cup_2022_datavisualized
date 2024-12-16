@@ -1,6 +1,6 @@
 "use client"; // Ensures this is a client-side component
 
-import { Box, Typography, Button, Collapse } from '@mui/material';
+import { Box, Typography,  Collapse } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import Flag from 'react-world-flags';
 import { useState } from 'react';
@@ -70,13 +70,6 @@ const MatchColumn = ({ rounds, onShowTimetable }: { rounds: IRoundProps[]; onSho
                   <Flag code={seed.teams[1]?.countryCode || ''} style={{ width: 30, height: 20, marginRight: 8 }} />
                   <Typography variant="body1">{seed.teams[1]?.name || 'NO TEAM'}</Typography>
                 </Box>
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={() => handleMatchClick(seed.teams[0]?.name || 'Team1', seed.teams[1]?.name || 'Team2')}
-                >
-                  View
-                </Button>
               </Box>
             ))}
           </Collapse>

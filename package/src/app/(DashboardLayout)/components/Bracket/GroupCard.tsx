@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, Box, Typography, Button } from '@mui/material';
+import { Card, Box, Typography } from '@mui/material';
 import Flag from 'react-world-flags';
 
 const GroupCard = ({ groupName, teams, onShowTimetable, index }: { groupName: string; teams: any[]; onShowTimetable: (groupId: number) => void; index: number }) => (
@@ -17,9 +17,6 @@ const GroupCard = ({ groupName, teams, onShowTimetable, index }: { groupName: st
         <Typography sx={{ fontWeight: 'bold' }}>{team.points} pts</Typography>
       </Box>
     ))}
-    <Button variant="contained" color="primary" fullWidth onClick={() => onShowTimetable(index)}>
-      Show Match Timetable
-    </Button>
   </Card>
 );
 

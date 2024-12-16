@@ -2,7 +2,7 @@
 
 import Flag from 'react-world-flags';
 import { Bracket, IRoundProps, Seed, SeedItem, SeedTeam, IRenderSeedProps } from 'react-brackets';
-import { Grid, Box, Card, Typography, Tabs, Tab, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Collapse, useMediaQuery, } from '@mui/material';
+import { Grid, Box, Card, Typography, Tabs, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Collapse, useMediaQuery, } from '@mui/material';
 
 const CustomSeed = ({ seed, onShowTimetable }: IRenderSeedProps & { onShowTimetable: () => void }) => (
   <Seed style={{ fontSize: 22 }}>

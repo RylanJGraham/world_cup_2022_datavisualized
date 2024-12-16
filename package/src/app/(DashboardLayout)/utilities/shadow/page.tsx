@@ -47,7 +47,7 @@ const countryCodeMapping = {
   Serbia: 'RS',
 };
 
-const Shadow = () => {
+const Teams = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [teams, setTeams] = useState({
     all: [],
@@ -55,8 +55,6 @@ const Shadow = () => {
     semis: [],
     finals: [],
   });
-
-  const router = useRouter();  // useRouter hook
 
   const normalizeTeamName = (name) => name.trim().toLowerCase();
 
@@ -136,9 +134,6 @@ const Shadow = () => {
   };
 
   const TeamCard = ({ name, countryCode }) => {
-    const handleClick = () => {
-      router.push(`/layout/team/${encodeURIComponent(name.toLowerCase())}`); // Navigate to team page with the name
-    };
 
     return (
       <Card
@@ -154,7 +149,6 @@ const Shadow = () => {
             backgroundColor: 'primary.light',
           },
         }}
-        onClick={handleClick}
       >
         <FlagIcon code={countryCode} style={{ width: '100px', height: 'auto', marginBottom: '10px' }} />
         <CardContent sx={{ textAlign: 'center' }}>
@@ -192,4 +186,4 @@ const Shadow = () => {
   );
 };
 
-export default Shadow;
+export default Teams;

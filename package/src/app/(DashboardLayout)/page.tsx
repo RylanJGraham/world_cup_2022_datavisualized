@@ -1,49 +1,57 @@
 'use client'
-import { Grid, Box } from '@mui/material';
+import { Box, Tabs, Tab, Typography, } from '@mui/material';
+import React, { useState } from 'react';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
-// components
-import SalesOverview from '@/app/(DashboardLayout)/components/dashboard/SalesOverview';
-import YearlyBreakup from '@/app/(DashboardLayout)/components/dashboard/YearlyBreakup';
-import RecentTransactions from '@/app/(DashboardLayout)/components/dashboard/RecentTransactions';
-import ProductPerformance from '@/app/(DashboardLayout)/components/dashboard/ProductPerformance';
-import Blog from '@/app/(DashboardLayout)/components/dashboard/Blog';
-import MonthlyEarnings from '@/app/(DashboardLayout)/components/dashboard/MonthlyEarnings';
-import ResponsiveImageWithOverlay from '@/app/(DashboardLayout)/components/images/ResponsiveImage';
+import Banner from '@/app/(DashboardLayout)/components/BannerHome/Banner';
+// Import Tab Content Components
+import Groups from './utilities/groups/page';
+import Teams from './utilities/shadow/page';
+import Argentina from './components/Argentina/page';
+import TournamentOverview from './components/Overview/page';
 
 const Dashboard = () => {
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setSelectedTab(newValue);
+  };
+
   return (
-    <PageContainer title="Dashboard" description="this is Dashboard">
+    <PageContainer title="Dashboard" description="This is the Dashboard">
       <Box>
-        <ResponsiveImageWithOverlay src="/images/home/banner_home.jpg" alt="Example Image" priority overlayText={'Qatar World Cup 2022'} caption='A Data Visualization of the Tournament' svgIconPath='/images/logos/dark-logo.svg'/>
-        <h1>Qatar World Cup 2022</h1>
-        <p>A Data Visualization of the Tournament</p>
-        <Grid container spacing={3}>
-          <Grid item xs={12} lg={8}>
-            <SalesOverview />
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <YearlyBreakup />
-              </Grid>
-              <Grid item xs={12}>
-                <MonthlyEarnings />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <RecentTransactions />
-          </Grid>
-          <Grid item xs={12} lg={8}>
-            <ProductPerformance />
-          </Grid>
-          <Grid item xs={12}>
-            <Blog />
-          </Grid>
-        </Grid>
+        <Banner
+          imageSrc="/images/home/messi.webp"
+          title="Argentina's Cinderella Story"
+          caption="A Data Visualization of the Tournament, & Messi's career capstone"
+        />
+
+        {/* Tabs Section */}
+        <Box sx={{ width: '100%', mt: 4 }}>
+          <Tabs
+            value={selectedTab}
+            onChange={handleTabChange}
+            centered
+            textColor="primary"
+            indicatorColor="primary"
+          >
+            <Tab label="Tournament Overview" />
+            <Tab label="The Road to Victory" />
+            <Tab label="Teams" />
+            <Tab label="Matches" />
+            <Tab label="Argentina vs Them All" />
+          </Tabs>
+          {/* Tab Content */}
+          <Box sx={{ mt: 3 }}>
+            {selectedTab === 0 && <TournamentOverview></TournamentOverview>}
+            {selectedTab === 1 && <Groups />}
+            {selectedTab === 2 && <Teams></Teams>}
+            {selectedTab === 3 && <Typography>Hi</Typography>}
+            {selectedTab === 4 && <Argentina></Argentina>}
+          </Box>
+        </Box>
       </Box>
     </PageContainer>
-  )
-}
+  );
+};
 
 export default Dashboard;
