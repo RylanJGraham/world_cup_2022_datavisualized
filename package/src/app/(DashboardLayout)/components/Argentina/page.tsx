@@ -97,9 +97,6 @@ const radarData = [
 ];
 
 
-
-
-
 // Custom flag bar renderer for stacked bar chart
 const FlagBarRenderer = ({ x, y, width, height, countryCode }: any) => {
   return (
@@ -260,14 +257,21 @@ const Argentina = () => {
           {teamDetails.name}
         </Typography>
       </Box>
-
+      <Typography
+        variant="h2"
+        sx={{
+          marginTop: '20px', textAlign: 'center', color: 'primary.main'
+        }}
+      >
+       Argentina vs Them All
+      </Typography>
       <Typography
         variant="h5"
         sx={{
-          marginTop: '10px', 
+          marginTop: '10px', alignContent: 'center', textAlign: 'center' 
         }}
       >
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+       View how Argentina stacked up against the competition below! With data visualizations of passing, possession, and more!
       </Typography>
 
       {/* Main Content */}
@@ -284,11 +288,11 @@ const Argentina = () => {
           }}
         >
           <Typography
-            variant="h2"
+            variant="h5"
             align="left"
-            sx={{ marginBottom: '0px' }}
+            sx={{ marginBottom: '0px', marginTop: '20px' }}
           >
-            Explore Their Tournament Journey
+            Explore Their Tournament
           </Typography>
           <List
             sx={{
@@ -321,7 +325,6 @@ const Argentina = () => {
                         variant="h6"
                         sx={{
                           color: selectedGraph === graph.name ? 'white' : 'black',
-                          fontSize: '1.2rem',
                           fontWeight: 600,
                         }}
                       >
@@ -345,7 +348,7 @@ const Argentina = () => {
                   centered
                 >
                   {stages.map((stage, index) => (
-                    <Tab label={stage} key={index} sx={{ fontSize: '1.2rem' }} />
+                    <Tab label={stage} key={index} sx={{ }} />
                   ))}
                 </Tabs>
 

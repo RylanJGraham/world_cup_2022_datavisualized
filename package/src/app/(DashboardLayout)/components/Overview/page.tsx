@@ -9,10 +9,10 @@ const TournamentOverview: React.FC = () => {
     <Box sx={{ py: 4, px: 2, maxWidth: '100%', margin: '0 auto' }}>
       {/* Introduction */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, textAlign: 'center' }}>
+        <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2, textAlign: 'center', color: 'primary.main' }}>
           Argentina’s Qatar Triumph: A Story for the Ages
         </Typography>
-        <Typography variant="body1" sx={{ lineHeight: 1.8 }}>
+        <Typography variant="h5" sx={{ lineHeight: 1.8 }}>
           In 2022, Argentina captivated the world by securing their third World Cup title in Qatar. 
           This journey, led by the iconic Lionel Messi, was not just a footballing triumph but 
           a narrative of resilience, redemption, and sheer brilliance.
@@ -21,7 +21,7 @@ const TournamentOverview: React.FC = () => {
 
       {/* Group Stage */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
+        <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
           The Group Stage: A Stumble and a Recovery
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: ['column', 'row'], alignItems: 'top' }}>
@@ -47,12 +47,12 @@ const TournamentOverview: React.FC = () => {
 
       {/* Knockout Stage */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+        <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
           The Knockout Stage: Drama and Dominance
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: ['column', 'row-reverse'], alignItems: 'top' }}>
           <Box sx={{ flex: 1, mb: [2, 0], pl: [0, 2] }}>
-            <Typography variant="h4" sx={{ lineHeight: 1.8 }}>
+            <Typography variant="h5" sx={{ lineHeight: 1.8 }}>
               The round of 16 and quarterfinals showcased Argentina’s resilience. Against Australia, 
               Messi’s brilliance was evident, while the penalty shootout win over the Netherlands 
               was a nerve-wracking affair that highlighted the team’s grit. The semifinal against 
@@ -73,7 +73,7 @@ const TournamentOverview: React.FC = () => {
 
       {/* The Final */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
+        <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
           The Final: A Match for the Ages
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: ['column', 'row'], alignItems: 'top' }}>
@@ -98,7 +98,7 @@ const TournamentOverview: React.FC = () => {
 
       {/* Legacy */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
+        <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
           Legacy: A Nation United
         </Typography>
         <Typography variant="h5" sx={{ lineHeight: 1.8 }}>
@@ -111,7 +111,7 @@ const TournamentOverview: React.FC = () => {
       {/* Full-width Banner */}
       <Box sx={{ mt: 6, position: 'relative', width: '100%', height: '400px' }}>
         <Image
-          src="/images/tournament/banner.jpg"
+          src="/images/tournament/win.jpg"
           alt="Argentina Celebration Banner"
           layout="fill"
           objectFit="cover"

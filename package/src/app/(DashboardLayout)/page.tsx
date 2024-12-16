@@ -8,6 +8,7 @@ import Groups from './utilities/groups/page';
 import Teams from './utilities/shadow/page';
 import Argentina from './components/Argentina/page';
 import TournamentOverview from './components/Overview/page';
+import MatchCard from './components/Calendar/page';
 
 const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -45,7 +46,7 @@ const Dashboard = () => {
             {selectedTab === 0 && <TournamentOverview></TournamentOverview>}
             {selectedTab === 1 && <Groups />}
             {selectedTab === 2 && <Teams></Teams>}
-            {selectedTab === 3 && <Typography>Hi</Typography>}
+            {selectedTab === 3 && <MatchCard></MatchCard>}
             {selectedTab === 4 && <Argentina></Argentina>}
           </Box>
         </Box>
