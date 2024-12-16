@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Box, Typography, Tabs, Tab, useTheme } from '@mui/material';
+import { Box, Typography, Tabs, Tab, Button, useTheme } from '@mui/material';
 import CountryFlag from '@/app/(DashboardLayout)/components/flags/FlagIcon'; // Adjust the import path if necessary
 
 // Match data for Argentina's 2022 World Cup games
@@ -151,6 +151,13 @@ const MatchCard: React.FC = () => {
               </Typography>
               <CountryFlag country={match.team2} size={40} />
             </Box>
+          </Box>
+
+          {/* View Stats Button */}
+          <Box sx={{ mt: 2, textAlign: 'center' }}>
+            <Button variant="contained" color="primary">
+              View Stats
+            </Button>
           </Box>
         </Box>
       ))}
