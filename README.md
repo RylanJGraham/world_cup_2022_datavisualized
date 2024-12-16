@@ -12,7 +12,7 @@ Modernize Free Next.js 14 Admin Template with Material Ui + Typescript
 
 > We recommend you use npm
 
-1. Install all packages
+1. Install packages
 
 ```
 npm i
