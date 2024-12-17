@@ -3,13 +3,13 @@
 import React, { useState } from 'react';
 import { Box, Typography, Tabs, Tab, Button, useTheme } from '@mui/material';
 import CountryFlag from '@/app/(DashboardLayout)/components/flags/FlagIcon'; // Adjust the import path if necessary
-import MatchupFranceArgentina from '@/app/(DashboardLayout)/Matchups/FranceArgentina'; // Import detailed stats components
-import MatchupCroatiaArgentina from '@/app/(DashboardLayout)/Matchups/CroatiaArgentina';
-import MatchupNetherlandsArgentina from '@/app/(DashboardLayout)/Matchups/NetherlandsArgentina';
-import MatchupAustraliaArgentina from '../../Matchups/AustraliaArgentina';
-import MatchupSaudiArgentina from '../../Matchups/SaudiArgentina';
-import MatchupMexicoArgentina from '../../Matchups/MexicoArgentina';
-import MatchupPolandArgentina from '../../Matchups/PolandArgentina';
+import MatchupFranceArgentina from '@/app/(DashboardLayout)/layout/Matchups/FranceArgentina'; // Import detailed stats components
+import MatchupCroatiaArgentina from '@/app/(DashboardLayout)/layout/Matchups/CroatiaArgentina';
+import MatchupNetherlandsArgentina from '@/app/(DashboardLayout)/layout/Matchups/NetherlandsArgentina';
+import MatchupAustraliaArgentina from '@/app/(DashboardLayout)/layout/Matchups/AustraliaArgentina';
+import MatchupSaudiArgentina from '@/app/(DashboardLayout)/layout/Matchups/SaudiArgentina';
+import MatchupMexicoArgentina from '@/app/(DashboardLayout)/layout/Matchups/MexicoArgentina';
+import MatchupPolandArgentina from '@/app/(DashboardLayout)/layout/Matchups/PolandArgentina';
 
 // Match data for Argentina's 2022 World Cup games
 const matchData = {
