@@ -15,6 +15,7 @@ const countryCodeMapping = {
   Wales: 'GB-WLS',
   Argentina: 'AR',
   'Saudi Arabia': 'SA',
+  SaudiArabia: 'SA',
   Denmark: 'DK',
   Tunisia: 'TN',
   Mexico: 'MX',

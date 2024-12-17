@@ -21,6 +21,11 @@ const GoalScorers = ({ players }) => {
   const totalGoalsTeam2 = team2Players.reduce((acc, player) => acc + player.goals, 0);
   const totalGoals = totalGoalsTeam1 + totalGoalsTeam2;
 
+  // Safeguard for zero goals
+  const safeTotalGoalsTeam1 = totalGoalsTeam1 > 0 ? totalGoalsTeam1 : 1;
+  const safeTotalGoalsTeam2 = totalGoalsTeam2 > 0 ? totalGoalsTeam2 : 1;
+  const safeTotalGoals = totalGoals > 0 ? totalGoals : 1;
+
   const colorPalette = [
     '#6BC4FF', // Green
     '##5194FF', // Purple
@@ -36,30 +41,30 @@ const GoalScorers = ({ players }) => {
   };
 
   // Calculate the radial data for each team, based on their respective goals
-  const radialData = {
-    team1: team1Players.map((player) => ({
+const radialData = {
+  team1: team1Players.map((player) => ({
+    name: `${player.firstName} ${player.lastName}`,
+    uv: Math.round((player.goals / safeTotalGoalsTeam1) * 100), // Percentage of team1 total goals
+    fill: getPlayerColor(`${player.firstName} ${player.lastName}`, colorPalette), // Get consistent color
+  })),
+  team2: team2Players.map((player) => ({
+    name: `${player.firstName} ${player.lastName}`,
+    uv: Math.round((player.goals / safeTotalGoalsTeam2) * 100), // Percentage of team2 total goals
+    fill: getPlayerColor(`${player.firstName} ${player.lastName}`, colorPalette), // Get consistent color
+  })),
+  all: [
+    ...team1Players.map((player) => ({
       name: `${player.firstName} ${player.lastName}`,
-      uv: Math.round((player.goals / totalGoalsTeam1) * 100), // Percentage of team1 total goals
+      uv: Math.round((player.goals / safeTotalGoals) * 100), // Percentage of total goals
       fill: getPlayerColor(`${player.firstName} ${player.lastName}`, colorPalette), // Get consistent color
     })),
-    team2: team2Players.map((player) => ({
+    ...team2Players.map((player) => ({
       name: `${player.firstName} ${player.lastName}`,
-      uv: Math.round((player.goals / totalGoalsTeam2) * 100), // Percentage of team2 total goals
+      uv: Math.round((player.goals / safeTotalGoals) * 100), // Percentage of total goals
       fill: getPlayerColor(`${player.firstName} ${player.lastName}`, colorPalette), // Get consistent color
     })),
-    all: [
-      ...team1Players.map((player) => ({
-        name: `${player.firstName} ${player.lastName}`,
-        uv: Math.round((player.goals / totalGoals) * 100), // Percentage of total goals
-        fill: getPlayerColor(`${player.firstName} ${player.lastName}`, colorPalette), // Get consistent color
-      })),
-      ...team2Players.map((player) => ({
-        name: `${player.firstName} ${player.lastName}`,
-        uv: Math.round((player.goals / totalGoals) * 100), // Percentage of total goals
-        fill: getPlayerColor(`${player.firstName} ${player.lastName}`, colorPalette), // Get consistent color
-      })),
-    ],
-  };
+  ],
+};
   
 
     
@@ -85,7 +90,7 @@ const GoalScorers = ({ players }) => {
 
   // Function to get the caption for the chart based on selected tab
   const getChartCaption = () => {
-    if (selectedTab === 'team1') {
+    if (selectedTab === 'team1' && totalGoalsTeam1 > 0) {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '0px' }}>
           <CountryFlag country={team1Players[0]?.team} size={20} />
@@ -94,7 +99,7 @@ const GoalScorers = ({ players }) => {
           </Typography>
         </Box>
       );
-    } else if (selectedTab === 'team2') {
+    } else if (selectedTab === 'team2' && totalGoalsTeam2 > 0) {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '0px' }}>
           <CountryFlag country={team2Players[0]?.team} size={20} />
@@ -106,8 +111,8 @@ const GoalScorers = ({ players }) => {
     } else {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '0px' }}>
-          <CountryFlag country={team1Players[0]?.team} size={20} />
-          <CountryFlag country={team2Players[0]?.team} size={20} sx={{ marginLeft: '10px' }} />
+          {totalGoalsTeam1 > 0 && <CountryFlag country={team1Players[0]?.team} size={20} />}
+          {totalGoalsTeam2 > 0 && <CountryFlag country={team2Players[0]?.team} size={20} sx={{ marginLeft: '10px' }} />}
           <Typography variant="h4" sx={{ marginLeft: '10px', textAlign: 'center' }}>
             Player Goal Contribution Percentage for Match
           </Typography>
@@ -125,7 +130,7 @@ const GoalScorers = ({ players }) => {
     <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
       {/* Left Section for Player Cards */}
       <Box sx={{
-        width: '100%', // Occupy 45% of the container's width
+        width: '50%', // Occupy 45% of the container's width
         display: 'flex',
         flexDirection: 'column', // Stack the player cards vertically
         justifyContent: 'top',
@@ -135,24 +140,32 @@ const GoalScorers = ({ players }) => {
       }}>
         {/* Tabs for Team 1, Team 2, and All Players */}
         <Tabs value={selectedTab} onChange={handleTabChange} centered>
+        {totalGoalsTeam1 > 0 && (
           <Tab label={
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <CountryFlag country={team1Players[0]?.team} size={20} />
-              <Typography variant="h5" sx={{ marginLeft: '5px' }}>{team1Players[0]?.team}</Typography>
+              <Typography variant="body1" sx={{ marginLeft: '5px' }}>
+                {team1Players[0]?.team}
+              </Typography>
             </Box>
           } value="team1" />
+        )}
+        {totalGoalsTeam2 > 0 && (
           <Tab label={
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <CountryFlag country={team2Players[0]?.team} size={20} />
-              <Typography variant="h5" sx={{ marginLeft: '5px' }}>{team2Players[0]?.team}</Typography>
+              <Typography variant="body1" sx={{ marginLeft: '5px' }}>
+                {team2Players[0]?.team}
+              </Typography>
             </Box>
           } value="team2" />
-          <Tab label={
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="h5">All</Typography>
-            </Box>
-          } value="all" />
-        </Tabs>
+        )}
+        <Tab label={
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="body1">All</Typography>
+          </Box>
+        } value="all" />
+      </Tabs>
 
         {/* Player Cards Gallery */}
         <Box sx={{
@@ -169,7 +182,7 @@ const GoalScorers = ({ players }) => {
             <Box key={index} sx={{
               textAlign: 'center',
               width: '180px',
-              height: '240px',
+              height: '160px',
               transition: 'transform 0.3s ease, width 0.3s ease, height 0.3s ease',
               transform: currentIndex === index ? 'scale(1.5)' : 'scale(1)',
               cursor: 'pointer',
