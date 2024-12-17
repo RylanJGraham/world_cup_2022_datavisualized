@@ -19,6 +19,10 @@ import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
 } from 'recharts';
 
+import PolarChartArgentina from "@/app/(DashboardLayout)/components/comparison/vis/PolarChartArgentina.jsx"
+import BarChartArgentina from "@/app/(DashboardLayout)/components/comparison/vis/BarChartArgentina"
+import ScatterChartArgentina from "@/app/(DashboardLayout)/components/comparison/vis/ScatterChartArgentina"
+
 // Mapping team names to country codes (ISO 3166-1 alpha-2)
 const countryCodeMapping = {
   Qatar: 'QA',
@@ -56,135 +60,10 @@ const countryCodeMapping = {
 };
 
 
-// Sample data for passes and possession, with stages added
-const argentinaPassesData = [
-  { game: 'ARGENTINA vs SAUDI ARABIA', completed_passes: 529, total_passes: 610, stage: 'Group', opponentTeam: 'Saudi Arabia', },
-  { game: 'ARGENTINA vs MEXICO', completed_passes: 464, total_passes: 533, stage: 'Group', opponentTeam: 'Mexico', },
-  { game: 'POLAND vs ARGENTINA', completed_passes: 814, total_passes: 862, stage: 'Group', opponentTeam: 'Poland', },
-  { game: 'ARGENTINA vs AUSTRALIA', completed_passes: 635, total_passes: 711, stage: 'Round of 16', opponentTeam: 'Australia', },
-  { game: 'NETHERLANDS vs ARGENTINA', completed_passes: 511, total_passes: 603, stage: 'Quarter Final', opponentTeam: 'Netherlands', },
-  { game: 'CROATIA vs ARGENTINA', completed_passes: 344, total_passes: 551, stage: 'Semi Final', opponentTeam: 'Croatia', },
-  { game: 'FRANCE vs ARGENTINA', completed_passes: 544, total_passes: 648, stage: 'Final', opponentTeam: 'France', },
-];
-
-const possessionData = [
-  { game: 'vs Saudi Arabia', argentina: 64, opponent: 24, opponentTeam: 'Saudi Arabia', stage: 'Group' },
-  { game: 'vs Mexico', argentina: 50, opponent: 36, opponentTeam: 'Mexico', stage: 'Group' },
-  { game: 'vs Poland', argentina: 67, opponent: 24, opponentTeam: 'Poland', stage: 'Group' },
-  { game: 'vs Australia', argentina: 53, opponent: 35, opponentTeam: 'Australia', stage: 'Round of 16' },
-  { game: 'vs Netherlands', argentina: 44, opponent: 45, opponentTeam: 'Netherlands', stage: 'Quarter Final' },
-  { game: 'vs Croatia', argentina: 34, opponent: 54, opponentTeam: 'Croatia', stage: 'Semi Final' },
-  { game: 'vs France', argentina: 46, opponent: 40, opponentTeam: 'France', stage: 'Final' },
-];
-
-const radarData = [
-  {
-    field: 'Crosses', Argentina: 10, Brazil: 12, France: 11,
-  },
-  {
-    field: 'Switches', Argentina: 13, Brazil: 5, France: 7,
-  },
-  {
-    field: 'Corners', Argentina: 7, Brazil: 8, France: 6,
-  },
-  {
-    field: 'Free Kicks', Argentina: 22, Brazil: 15, France: 8,
-  },
-  {
-    field: 'Penalties', Argentina: 3, Brazil: 2, France: 4,
-  },
-  {
-    field: 'Goals Prevented', Argentina: 10, Brazil: 8, France: 4,
-  },
-  {
-    field: 'Shots', Argentina: 14, Brazil: 8, France: 25,
-  },
-];
-
-
-// Custom flag bar renderer for stacked bar chart
-const FlagBarRenderer = ({ x, y, width, height, countryCode }: any) => {
-  return (
-    <foreignObject x={x} y={y} width={width} height={height}>
-      <div
-        style={{
-          width: `${width}px`,
-          height: `${height}px`,
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#f0f0f0',
-        }}
-      >
-        <FlagIcon code={countryCode} style={{ width: '100%', height: '100%' }} />
-      </div>
-    </foreignObject>
-  );
-};
-
-// Custom Tooltip for showing stats and flags
-const CustomTooltipScatter = ({ payload, label }: any) => {
-  if (!payload || payload.length === 0) return null;
-
-  const data = payload[0].payload;
-  const opponentTeam = data.opponentTeam || '';
-  const argentinaFlagCode: FlagIconCode = countryCodeMapping['Argentina'];
-  const opponentFlagCode: FlagIconCode = countryCodeMapping[opponentTeam as keyof typeof countryCodeMapping];
-
-
-  return (
-    <div style={{ backgroundColor: '#fff', border: '1px solid #ddd', padding: '10px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <FlagIcon code='AR' style={{ width: '24px', height: '24px', marginRight: '5px' }} />
-        <Typography variant="body2">VS</Typography>
-        <FlagIcon code={opponentFlagCode} style={{ width: '24px', height: '24px', marginLeft: '5px' }} />
-      </div>
-      <Typography variant="body2">{label}</Typography>
-      <Typography variant="body2">
-        Argentina: {data.argentina}% Possession
-      </Typography>
-      <Typography variant="body2">
-        {opponentTeam}: {data.opponent}% Possession
-      </Typography>
-    </div>
-  );
-};
-
-// Custom Tooltip for showing stats and flags
-const CustomTooltip = ({ payload, label }: any) => {
-  if (!payload || payload.length === 0) return null;
-
-  const data = payload[0].payload;
-  const opponentTeam = data.opponentTeam || '';
-  const argentinaFlagCode: FlagIconCode = countryCodeMapping['Argentina'];
-  const opponentFlagCode: FlagIconCode = countryCodeMapping[opponentTeam as keyof typeof countryCodeMapping];
-
-
-  return (
-    <div style={{ backgroundColor: '#fff', border: '1px solid #ddd', padding: '10px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <FlagIcon code={argentinaFlagCode} style={{ width: '24px', height: '24px', marginRight: '5px' }} />
-        <Typography variant="body2">VS</Typography>
-        <FlagIcon code={opponentFlagCode} style={{ width: '24px', height: '24px', marginLeft: '5px' }} />
-      </div>
-      <Typography variant="body2">{label}</Typography>
-      <Typography variant="body2">
-        Argentina: {data.argentina}% Possession
-      </Typography>
-      <Typography variant="body2">
-        {opponentTeam}: {data.opponent}% Possession
-      </Typography>
-    </div>
-  );
-};
-
 const Argentina = () => {
   const { teamName } = useParams();
   const [teamDetails, setTeamDetails] = useState(null);
   const [tabValue, setTabValue] = useState(0); // Track the selected tab value for each chart
-  const [filteredPassesData, setFilteredPassesData] = useState(argentinaPassesData);
-  const [filteredPossessionData, setFilteredPossessionData] = useState(possessionData);
   const [selectedGraph, setSelectedGraph] = useState('passes'); // Track the selected graph
 
   const stages = ['All', 'Group', 'Round of 16', 'Quarter Final', 'Semi Final', 'Final'];
@@ -326,7 +205,7 @@ const Argentina = () => {
             align="left"
             sx={{ marginBottom: '0px', marginTop: '20px' }}
           >
-            Explore Their Tournament
+            Explore Data
           </Typography>
           <List
             sx={{
@@ -376,76 +255,17 @@ const Argentina = () => {
           {graphOptions.map((graph) => (
             selectedGraph === graph.name && (
               <Container key={graph.name} sx={{ marginTop: '40px' }}>
-                <Tabs
-                  value={tabValue}
-                  onChange={(e, newValue) => handleTabChange(e, newValue, graph.name)}
-                  centered
-                >
-                  {stages.map((stage, index) => (
-                    <Tab label={stage} key={index} sx={{ }} />
-                  ))}
-                </Tabs>
-
-                <Typography variant="h3" align="center" gutterBottom sx={{ marginTop: '20px' }}>
-                  {graph.label}
-                </Typography>
 
                 {graph.name === 'passes' && (
-                  <ScatterChart width={800} height={400}>
-                    <CartesianGrid />
-                    <XAxis type="number" dataKey="total_passes" name="Total Passes">
-                      <Label value="Total Passes" offset={0} position="insideBottom" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
-                    </XAxis>
-                    <YAxis type="number" dataKey="completed_passes" name="Completed Passes">
-                      <Label value="Completed Passes" angle={-90} position="insideLeft" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
-                    </YAxis>
-                    <Tooltip content={<CustomTooltipScatter />}/>
-                    <Scatter name="Argentina" data={filteredPassesData} fill="#82ca9d" />
-                  </ScatterChart>
+                  <ScatterChartArgentina></ScatterChartArgentina>
                 )}
 
                 {selectedGraph === 'radar' && (
-                  <Container sx={{ marginTop: '40px' }}>
-                    <RadarChart outerRadius={150} width={800} height={400} data={radarData}>
-                      <PolarGrid />
-                      
-                      {/* Define 9 axes */}
-                      <PolarAngleAxis dataKey="field" />
-                      
-                      {/* Define radius axis */}
-                      <PolarRadiusAxis domain={[0, 12]} />
-                      
-                      {/* Radar for each team */}
-                      <Radar name="Argentina" dataKey="Argentina" stroke="#ff0000" fill="#ff0000" fillOpacity={0.3} />
-                      <Radar name="Brazil" dataKey="Brazil" stroke="#0000ff" fill="#0000ff" fillOpacity={0.3} />
-                      <Radar name="France" dataKey="France" stroke="#00ff00" fill="#00ff00" fillOpacity={0.3} />
-                    </RadarChart>
-                  </Container>
+                    <PolarChartArgentina></PolarChartArgentina>
                 )}
 
                 {graph.name === 'possession' && (
-                  <BarChart width={800} height={400} data={filteredPossessionData}>
-                    <CartesianGrid />
-                    <XAxis type="category" dataKey="game" name="Game">
-                      <Label value="Games" offset={0} position="insideBottom" style={{ fontSize: '1.0rem', fontWeight: 'bold', marginTop: '20px', }} />
-                    </XAxis>
-                    <YAxis type="number">
-                      <Label value="Possession (%)" angle={-90} position="insideLeft" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
-                    </YAxis>
-                    <Tooltip content={<CustomTooltip />} />
-                    <Bar
-                      dataKey="argentina"
-                      stackId="a"
-                      shape={(props) => <FlagBarRenderer {...props} countryCode={countryCodeMapping['Argentina']} />}
-                    />
-                    <Bar
-                      dataKey="opponent"
-                      stackId="a"
-                      shape={(props) => (
-                        <FlagBarRenderer {...props} countryCode={countryCodeMapping[props.payload.opponentTeam]} />
-                      )}
-                    />
-                  </BarChart>
+                  <BarChartArgentina></BarChartArgentina>
                 )}
               </Container>
             )
