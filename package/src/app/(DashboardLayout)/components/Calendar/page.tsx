@@ -3,6 +3,13 @@
 import React, { useState } from 'react';
 import { Box, Typography, Tabs, Tab, Button, useTheme } from '@mui/material';
 import CountryFlag from '@/app/(DashboardLayout)/components/flags/FlagIcon'; // Adjust the import path if necessary
+import MatchupFranceArgentina from '@/app/(DashboardLayout)/Matchups/FranceArgentina'; // Import detailed stats components
+import MatchupCroatiaArgentina from '@/app/(DashboardLayout)/Matchups/CroatiaArgentina';
+import MatchupNetherlandsArgentina from '@/app/(DashboardLayout)/Matchups/NetherlandsArgentina';
+import MatchupAustraliaArgentina from '../../Matchups/AustraliaArgentina';
+import MatchupSaudiArgentina from '../../Matchups/SaudiArgentina';
+import MatchupMexicoArgentina from '../../Matchups/MexicoArgentina';
+import MatchupPolandArgentina from '../../Matchups/PolandArgentina';
 
 // Match data for Argentina's 2022 World Cup games
 const matchData = {
@@ -10,7 +17,7 @@ const matchData = {
     {
       date: 'November 22, 2022',
       team1: 'Argentina',
-      team2: 'Saudi Arabia',
+      team2: 'SaudiArabia',
       score: '1 - 2',
     },
     {
@@ -60,12 +67,29 @@ const matchData = {
   ],
 };
 
+// Mapping of matches to their respective detailed components
+const matchComponentMap: Record<string, React.FC> = {
+  'December 13, 2022-Argentina-Croatia': MatchupCroatiaArgentina,
+  'December 18, 2022-Argentina-France': MatchupFranceArgentina,
+  'December 9, 2022-Netherlands-Argentina': MatchupNetherlandsArgentina,
+  'December 3, 2022-Argentina-Australia': MatchupAustraliaArgentina,
+  'November 22, 2022-Argentina-SaudiArabia': MatchupSaudiArgentina,
+  'November 26, 2022-Argentina-Mexico': MatchupMexicoArgentina,
+  'November 30, 2022-Poland-Argentina': MatchupPolandArgentina,
+  // Add other match components here
+};
+
 const MatchCard: React.FC = () => {
   const theme = useTheme();
   const [selectedTab, setSelectedTab] = useState('group');
+  const [expandedMatch, setExpandedMatch] = useState<string | null>(null); // Track which match card is expanded
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setSelectedTab(newValue);
+  };
+
+  const toggleMatchStats = (matchIdentifier: string) => {
+    setExpandedMatch((prev) => (prev === matchIdentifier ? null : matchIdentifier));
   };
 
   return (
@@ -91,76 +115,91 @@ const MatchCard: React.FC = () => {
       </Tabs>
 
       {/* Match Cards */}
-      {matchData[selectedTab as keyof typeof matchData].map((match, index) => (
-        <Box
-          key={index}
-          sx={{
-            mb: 4,
-            p: 2,
-            border: `1px solid ${theme.palette.divider}`,
-            borderRadius: theme.shape.borderRadius,
-            boxShadow: 1,
-            backgroundColor: theme.palette.background.paper,
-          }}
-        >
-          {/* Match Date */}
-          <Typography
-            variant="subtitle1"
-            sx={{
-              mb: 2,
-              fontWeight: 'bold',
-              color: theme.palette.text.secondary,
-              textAlign: 'center',
-            }}
-          >
-            {match.date}
-          </Typography>
+      {matchData[selectedTab as keyof typeof matchData].map((match, index) => {
+        const matchIdentifier = `${match.date}-${match.team1}-${match.team2}`;
+        const MatchComponent = matchComponentMap[matchIdentifier];
 
-          {/* Teams and Score */}
+        return (
           <Box
+            key={index}
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              mb: 4,
+              p: 2,
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: theme.shape.borderRadius,
+              boxShadow: 1,
+              backgroundColor: theme.palette.background.paper,
             }}
           >
-            {/* Team 1 */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <CountryFlag country={match.team1} size={40} />
-              <Typography variant="body1" sx={{ ml: 2, fontWeight: 'bold' }}>
-                {match.team1}
-              </Typography>
-            </Box>
-
-            {/* Match Score */}
+            {/* Match Date */}
             <Typography
-              variant="body1"
+              variant="subtitle1"
               sx={{
+                mb: 2,
                 fontWeight: 'bold',
+                color: theme.palette.text.secondary,
                 textAlign: 'center',
-                color: theme.palette.primary.main,
               }}
             >
-              {match.score}
+              {match.date}
             </Typography>
 
-            {/* Team 2 */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="body1" sx={{ mr: 2, fontWeight: 'bold' }}>
-                {match.team2}
-              </Typography>
-              <CountryFlag country={match.team2} size={40} />
-            </Box>
-          </Box>
+            {/* Teams and Score */}
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              {/* Team 1 */}
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <CountryFlag country={match.team1} size={40} />
+                <Typography variant="body1" sx={{ ml: 2, fontWeight: 'bold' }}>
+                  {match.team1}
+                </Typography>
+              </Box>
 
-          {/* View Stats Button */}
-          <Box sx={{ mt: 2, textAlign: 'center' }}>
-            <Button variant="contained" color="primary">
-              View Stats
+              {/* Match Score */}
+              <Typography
+                variant="body1"
+                sx={{
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  color: theme.palette.primary.main,
+                }}
+              >
+                {match.score}
+              </Typography>
+
+              {/* Team 2 */}
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant="body1" sx={{ mr: 2, fontWeight: 'bold' }}>
+                  {match.team2}
+                </Typography>
+                <CountryFlag country={match.team2} size={40} />
+              </Box>
+            </Box>
+
+            {/* View Stats Button */}
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2, width: '100%' }}
+              onClick={() => toggleMatchStats(matchIdentifier)}
+            >
+              {expandedMatch === matchIdentifier ? 'Hide Stats' : 'View Stats'}
             </Button>
+
+            {/* Detailed Stats Component */}
+            {expandedMatch === matchIdentifier && MatchComponent && (
+              <Box sx={{ mt: 4 }}>
+                <MatchComponent />
+              </Box>
+            )}
           </Box>
-        </Box>
-      ))}
+        );
+      })}
     </Box>
   );
 };

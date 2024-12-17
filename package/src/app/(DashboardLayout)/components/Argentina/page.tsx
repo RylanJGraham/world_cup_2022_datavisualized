@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Box, Typography, Container, Tab, Tabs, List, ListItem, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
-import { FlagIcon } from 'react-flag-kit';
+import { FlagIcon, FlagIconCode } from 'react-flag-kit';
 import SportsEsports from '@mui/icons-material/SportsEsports';
 import { SportsSoccer, Flag as FlagIconMUI } from '@mui/icons-material'; // Import Material-UI Icons
 import {
@@ -55,21 +55,26 @@ const countryCodeMapping = {
   Serbia: 'RS',
 };
 
+
 // Sample data for passes and possession, with stages added
 const argentinaPassesData = [
-  { game: 'ARGENTINA vs SAUDI ARABIA', completed_passes: 529, total_passes: 610, stage: 'Group' },
-  { game: 'ARGENTINA vs MEXICO', completed_passes: 464, total_passes: 533, stage: 'Group' },
-  { game: 'POLAND vs ARGENTINA', completed_passes: 814, total_passes: 862, stage: 'Group' },
-  { game: 'ARGENTINA vs AUSTRALIA', completed_passes: 635, total_passes: 711, stage: 'Round of 16' },
-  { game: 'NETHERLANDS vs ARGENTINA', completed_passes: 511, total_passes: 603, stage: 'Quarter Final' },
+  { game: 'ARGENTINA vs SAUDI ARABIA', completed_passes: 529, total_passes: 610, stage: 'Group', opponentTeam: 'Saudi Arabia', },
+  { game: 'ARGENTINA vs MEXICO', completed_passes: 464, total_passes: 533, stage: 'Group', opponentTeam: 'Mexico', },
+  { game: 'POLAND vs ARGENTINA', completed_passes: 814, total_passes: 862, stage: 'Group', opponentTeam: 'Poland', },
+  { game: 'ARGENTINA vs AUSTRALIA', completed_passes: 635, total_passes: 711, stage: 'Round of 16', opponentTeam: 'Australia', },
+  { game: 'NETHERLANDS vs ARGENTINA', completed_passes: 511, total_passes: 603, stage: 'Quarter Final', opponentTeam: 'Netherlands', },
+  { game: 'CROATIA vs ARGENTINA', completed_passes: 344, total_passes: 551, stage: 'Semi Final', opponentTeam: 'Croatia', },
+  { game: 'FRANCE vs ARGENTINA', completed_passes: 544, total_passes: 648, stage: 'Final', opponentTeam: 'France', },
 ];
 
 const possessionData = [
-  { game: 'ARGENTINA vs SAUDI ARABIA', argentina: 70, opponent: 30, opponentTeam: 'Saudi Arabia', stage: 'Group' },
-  { game: 'ARGENTINA vs MEXICO', argentina: 65, opponent: 35, opponentTeam: 'Mexico', stage: 'Group' },
-  { game: 'POLAND vs ARGENTINA', argentina: 74, opponent: 26, opponentTeam: 'Poland', stage: 'Group' },
-  { game: 'ARGENTINA vs AUSTRALIA', argentina: 61, opponent: 39, opponentTeam: 'Australia', stage: 'Round of 16' },
-  { game: 'NETHERLANDS vs ARGENTINA', argentina: 55, opponent: 45, opponentTeam: 'Netherlands', stage: 'Quarter Final' },
+  { game: 'vs Saudi Arabia', argentina: 64, opponent: 24, opponentTeam: 'Saudi Arabia', stage: 'Group' },
+  { game: 'vs Mexico', argentina: 50, opponent: 36, opponentTeam: 'Mexico', stage: 'Group' },
+  { game: 'vs Poland', argentina: 67, opponent: 24, opponentTeam: 'Poland', stage: 'Group' },
+  { game: 'vs Australia', argentina: 53, opponent: 35, opponentTeam: 'Australia', stage: 'Round of 16' },
+  { game: 'vs Netherlands', argentina: 44, opponent: 45, opponentTeam: 'Netherlands', stage: 'Quarter Final' },
+  { game: 'vs Croatia', argentina: 34, opponent: 54, opponentTeam: 'Croatia', stage: 'Semi Final' },
+  { game: 'vs France', argentina: 46, opponent: 40, opponentTeam: 'France', stage: 'Final' },
 ];
 
 const radarData = [
@@ -119,13 +124,42 @@ const FlagBarRenderer = ({ x, y, width, height, countryCode }: any) => {
 };
 
 // Custom Tooltip for showing stats and flags
+const CustomTooltipScatter = ({ payload, label }: any) => {
+  if (!payload || payload.length === 0) return null;
+
+  const data = payload[0].payload;
+  const opponentTeam = data.opponentTeam || '';
+  const argentinaFlagCode: FlagIconCode = countryCodeMapping['Argentina'];
+  const opponentFlagCode: FlagIconCode = countryCodeMapping[opponentTeam as keyof typeof countryCodeMapping];
+
+
+  return (
+    <div style={{ backgroundColor: '#fff', border: '1px solid #ddd', padding: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <FlagIcon code='AR' style={{ width: '24px', height: '24px', marginRight: '5px' }} />
+        <Typography variant="body2">VS</Typography>
+        <FlagIcon code={opponentFlagCode} style={{ width: '24px', height: '24px', marginLeft: '5px' }} />
+      </div>
+      <Typography variant="body2">{label}</Typography>
+      <Typography variant="body2">
+        Argentina: {data.argentina}% Possession
+      </Typography>
+      <Typography variant="body2">
+        {opponentTeam}: {data.opponent}% Possession
+      </Typography>
+    </div>
+  );
+};
+
+// Custom Tooltip for showing stats and flags
 const CustomTooltip = ({ payload, label }: any) => {
   if (!payload || payload.length === 0) return null;
 
   const data = payload[0].payload;
   const opponentTeam = data.opponentTeam || '';
-  const argentinaFlagCode = countryCodeMapping['Argentina'];
-  const opponentFlagCode = countryCodeMapping[opponentTeam];
+  const argentinaFlagCode: FlagIconCode = countryCodeMapping['Argentina'];
+  const opponentFlagCode: FlagIconCode = countryCodeMapping[opponentTeam as keyof typeof countryCodeMapping];
+
 
   return (
     <div style={{ backgroundColor: '#fff', border: '1px solid #ddd', padding: '10px' }}>
@@ -153,7 +187,7 @@ const Argentina = () => {
   const [filteredPossessionData, setFilteredPossessionData] = useState(possessionData);
   const [selectedGraph, setSelectedGraph] = useState('passes'); // Track the selected graph
 
-  const stages = ['All', 'Group', 'Round of 16', 'Quarter Final'];
+  const stages = ['All', 'Group', 'Round of 16', 'Quarter Final', 'Semi Final', 'Final'];
 
   const graphOptions = [
   { name: 'passes', label: 'Pass Total vs Completions', icon: <SportsSoccer sx={{fontSize: '2rem'}} /> },
@@ -365,21 +399,13 @@ const Argentina = () => {
                     <YAxis type="number" dataKey="completed_passes" name="Completed Passes">
                       <Label value="Completed Passes" angle={-90} position="insideLeft" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
                     </YAxis>
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<CustomTooltipScatter />}/>
                     <Scatter name="Argentina" data={filteredPassesData} fill="#82ca9d" />
                   </ScatterChart>
                 )}
 
                 {selectedGraph === 'radar' && (
                   <Container sx={{ marginTop: '40px' }}>
-                    <Tabs value={tabValue} onChange={(e, newValue) => handleTabChange(e, newValue, 'radar')} centered>
-                      {stages.map((stage, index) => (
-                        <Tab label={stage} key={index} sx={{ fontSize: '1.2rem' }} />
-                      ))}
-                    </Tabs>
-                    <Typography variant="h3" align="center" gutterBottom sx={{ marginTop: '20px' }}>
-                      Team Comparison (Radar)
-                    </Typography>
                     <RadarChart outerRadius={150} width={800} height={400} data={radarData}>
                       <PolarGrid />
                       
@@ -401,7 +427,7 @@ const Argentina = () => {
                   <BarChart width={800} height={400} data={filteredPossessionData}>
                     <CartesianGrid />
                     <XAxis type="category" dataKey="game" name="Game">
-                      <Label value="Games" offset={0} position="insideBottom" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
+                      <Label value="Games" offset={0} position="insideBottom" style={{ fontSize: '1.0rem', fontWeight: 'bold', marginTop: '20px', }} />
                     </XAxis>
                     <YAxis type="number">
                       <Label value="Possession (%)" angle={-90} position="insideLeft" style={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
