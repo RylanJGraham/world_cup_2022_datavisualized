@@ -62,7 +62,7 @@ const Argentina = () => {
   const graphOptions = [
     { name: 'passes', label: 'Pass Total vs Completions', icon: <SportsSoccer sx={{ fontSize: '2rem' }} /> },
     { name: 'possession', label: 'Game Possession Statistics', icon: <FlagIconMUI sx={{ fontSize: '2rem' }} /> },
-    { name: 'radar', label: 'Team Comparison (Radar)', icon: <SportsEsports sx={{ fontSize: '2rem' }} /> },
+    { name: 'radar', label: 'Team Comparison (Radar)', icon: <SportsEsports sx={{ fontSize: '2rem' }} /> }, 
   ];
 
   const handleListItemClick = (graphType: string) => {

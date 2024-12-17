@@ -95,7 +95,7 @@ const MatchCard: React.FC = () => {
   return (
     <Box sx={{ py: 4, px: 2, maxWidth: '800px', margin: '0 auto' }}>
       <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
-        Argentina's 2022 World Cup Matches
+        Argentina&apos;s 2022 World Cup Matches
       </Typography>
 
       {/* Tabs for stages */}

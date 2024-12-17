@@ -84,7 +84,7 @@ const MatchupPage = () => {
   return (
     <div>
       <h1>Match not found</h1>
-      <p>Sorry, we couldn't find details for the selected matchup.</p>
+      <p>Sorry, we couldn&apos;t find details for the selected matchup.</p>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use client"
 
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
-import { Grid, Box, Tabs, Tab } from '@mui/material';
+import { Grid, Box, Tabs, Tab, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import BracketComponent from '@/app/(DashboardLayout)/components/Bracket/BracketComponent';
 import MatchColumn from '@/app/(DashboardLayout)/components/Bracket/MatchColumn';
