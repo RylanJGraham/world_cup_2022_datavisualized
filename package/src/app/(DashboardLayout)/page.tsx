@@ -1,5 +1,5 @@
 'use client'
-import { Box, Tabs, Tab, Typography, } from '@mui/material';
+import { Box, Tabs, Tab, } from '@mui/material';
 import React, { useState } from 'react';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 import Banner from '@/app/(DashboardLayout)/components/BannerHome/Banner';
