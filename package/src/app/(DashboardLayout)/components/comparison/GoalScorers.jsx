@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Tab, Tabs, Image } from '@mui/material';
+import { Box, Typography, Tab, Tabs} from '@mui/material';
 import { RadialBarChart, RadialBar, Tooltip, ResponsiveContainer, Legend } from 'recharts'; // Import RadialBarChart and Tooltip from Recharts
 import CountryFlag from '@/app/(DashboardLayout)/components/flags/FlagIcon'; // Import CountryFlag
 import { useTheme } from '@mui/material/styles'; // Import useTheme hook
@@ -209,7 +209,7 @@ const radialData = {
               </Box>
 
               {/* Player Image */}
-              <Image
+              <img
                 src={`/images/Players/${player.team.toLowerCase()}/${formatFileName(player.lastName)}.webp`}
                 alt={player.lastName}
                 style={{

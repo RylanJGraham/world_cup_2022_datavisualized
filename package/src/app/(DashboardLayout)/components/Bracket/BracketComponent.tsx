@@ -14,12 +14,12 @@ const CustomSeed = ({ seed, onClick }: IRenderSeedProps & { onClick?: () => void
       onClick={onClick}
     >
       <div>
-        <SeedTeam>
-          <Flag code={seed.teams[0]?.countryCode || ''} style={{ marginRight: 10, width: 30, height: 20 }} />
+        <SeedTeam style={{ color: '#5D87FF' }}>
+          <Flag code={seed.teams[0]?.countryCode || ''} style={{ marginRight: 10, width: 40, height: 30 }} />
           {seed.teams[0]?.name || 'NO TEAM'}
         </SeedTeam>
         <SeedTeam>
-          <Flag code={seed.teams[1]?.countryCode || ''} style={{ marginRight: 10, width: 30, height: 20 }} />
+          <Flag code={seed.teams[1]?.countryCode || ''} style={{ marginRight: 10, width: 40, height: 30 }} />
           {seed.teams[1]?.name || 'NO TEAM'}
         </SeedTeam>
       </div>

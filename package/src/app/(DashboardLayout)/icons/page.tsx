@@ -82,7 +82,7 @@ const MatchupPage = () => {
   return (
     <Container maxWidth="lg" sx={{ marginTop: '40px' }}>
       {/* Banner */}
-      <TeamMatchupBanner />
+      <TeamMatchupBanner team1={undefined} team2={undefined} />
 
       {/* Scores */}
       <MatchStats matchData={matchData} />

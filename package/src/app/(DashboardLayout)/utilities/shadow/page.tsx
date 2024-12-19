@@ -48,43 +48,64 @@ const countryCodeMapping = {
 };
 
 const Teams = () => {
+  interface Team {
+    name: string;
+    countryCode: string;
+  }
+
   const [selectedTab, setSelectedTab] = useState(0);
-  const [teams, setTeams] = useState({
+  const [teams, setTeams] = useState<{
+    all: Team[];
+    quarters: Team[];
+    semis: Team[];
+    finals: Team[];
+  }>({
     all: [],
     quarters: [],
     semis: [],
     finals: [],
   });
 
-  const normalizeTeamName = (name) => name.trim().toLowerCase();
+  const normalizeTeamName = (name: string) => name.trim().toLowerCase();
 
-  const parseCSVData = async (csvPath) => {
+  interface CSVRow {
+    team1: string;
+    team2: string;
+    category: string;
+  }
+  
+  const parseCSVData = async (csvPath: string) => {
     const response = await fetch(csvPath);
     const csvData = await response.text();
-
-    const parsedTeams = {
+  
+    const parsedTeams: {
+      all: Team[];
+      quarters: Team[];
+      semis: Team[];
+      finals: Team[];
+    } = {
       all: [],
       quarters: [],
       semis: [],
       finals: [],
     };
-
-    Papa.parse(csvData, {
+  
+    Papa.parse<CSVRow>(csvData, {
       header: true,
       skipEmptyLines: true,
       complete: (result) => {
         result.data.forEach((row) => {
-          const team1 = normalizeTeamName(row['team1']);
-          const team2 = normalizeTeamName(row['team2']);
-          const category = row['category'];
-
+          const team1 = normalizeTeamName(row.team1);
+          const team2 = normalizeTeamName(row.team2);
+          const category = row.category;
+  
           const team1CountryCode = countryCodeMapping[
             Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team1) || ''
           ] || '??';
           const team2CountryCode = countryCodeMapping[
             Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team2) || ''
           ] || '??';
-
+  
           switch (category) {
             case 'Group A':
             case 'Group B':
@@ -94,32 +115,32 @@ const Teams = () => {
             case 'Group F':
             case 'Group G':
             case 'Group H':
-              parsedTeams.all.push({ name: row['team1'], countryCode: team1CountryCode });
-              parsedTeams.all.push({ name: row['team2'], countryCode: team2CountryCode });
+              parsedTeams.all.push({ name: row.team1, countryCode: team1CountryCode });
+              parsedTeams.all.push({ name: row.team2, countryCode: team2CountryCode });
               break;
             case 'Quarter-final':
-              parsedTeams.quarters.push({ name: row['team1'], countryCode: team1CountryCode });
-              parsedTeams.quarters.push({ name: row['team2'], countryCode: team2CountryCode });
+              parsedTeams.quarters.push({ name: row.team1, countryCode: team1CountryCode });
+              parsedTeams.quarters.push({ name: row.team2, countryCode: team2CountryCode });
               break;
             case 'Semi-final':
-              parsedTeams.semis.push({ name: row['team1'], countryCode: team1CountryCode });
-              parsedTeams.semis.push({ name: row['team2'], countryCode: team2CountryCode });
+              parsedTeams.semis.push({ name: row.team1, countryCode: team1CountryCode });
+              parsedTeams.semis.push({ name: row.team2, countryCode: team2CountryCode });
               break;
             case 'Final':
-              parsedTeams.finals.push({ name: row['team1'], countryCode: team1CountryCode });
-              parsedTeams.finals.push({ name: row['team2'], countryCode: team2CountryCode });
+              parsedTeams.finals.push({ name: row.team1, countryCode: team1CountryCode });
+              parsedTeams.finals.push({ name: row.team2, countryCode: team2CountryCode });
               break;
             default:
               break;
           }
         });
-
+  
         Object.keys(parsedTeams).forEach((round) => {
           parsedTeams[round] = Array.from(
             new Map(parsedTeams[round].map((team) => [team.name, team])).values()
           );
         });
-
+  
         setTeams(parsedTeams);
       },
     });
@@ -129,12 +150,19 @@ const Teams = () => {
     parseCSVData('/data/Fifa_world_cup_matches.csv');
   }, []);
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (
+    event: React.SyntheticEvent,
+    newValue: number
+  ) => {
     setSelectedTab(newValue);
   };
 
-  const TeamCard = ({ name, countryCode }) => {
-
+  interface TeamCardProps {
+    name: string;
+    countryCode: string;
+  }
+  
+  const TeamCard: React.FC<TeamCardProps> = ({ name, countryCode }) => {
     return (
       <Card
         sx={{
