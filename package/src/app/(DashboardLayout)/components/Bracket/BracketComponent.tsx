@@ -1,3 +1,5 @@
+'use client'
+
 import Flag from 'react-world-flags';
 import { Bracket, IRoundProps, Seed, SeedItem, SeedTeam, IRenderSeedProps } from 'react-brackets';
 import { Box } from '@mui/material';
