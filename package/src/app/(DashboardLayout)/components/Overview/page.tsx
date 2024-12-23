@@ -144,51 +144,51 @@ const TournamentOverview: React.FC = () => {
       <Section
         title="Messis Leadership - The Heart of Argentina"
         text="At the core of Argentina's success was Lionel Messi. At 35, the veteran captain delivered one of the greatest individual World Cup performances ever seen. From his opening goal against Mexico to his brace in the final against France, Messi's vision, dribbling, and finishing galvanized the team. Beyond the goals and assists, it was his calm leadership and unyielding determination that inspired the squad through moments of adversity. Messi’s ability to rally the team after setbacks cemented his legacy as a true leader and icon of the sport."
-        imageSrc="/images/tournament/croatia.jpg"
+        imageSrc="/images/overview/overview_messi.jpg"
         reverse
       />
       <Section
         title="Rising Stars - Julián Álvarez’s Breakout"
         text="While Messi stole the spotlight, the tournament also served as a stage for Julián Álvarez's meteoric rise. The young striker scored four goals, including a stunning solo effort against Croatia in the semifinals. His relentless pressing, clinical finishing, and chemistry with Messi added a new dimension to Argentina’s attack. Álvarez’s performances announced him as the next star of Argentine football, giving fans hope for a bright future beyond this tournament."
-        imageSrc="/images/tournament/france.jpg"
+        imageSrc="/images/overview/overview_julian.jpg"
       />
       <Section
         title="Emiliano ‘Dibu’ Martínez - The Wall of Argentina"
         text="Emiliano ‘Dibu’ Martínez played a pivotal role in Argentina’s triumph. His stunning saves in the knockout stages, including a last-second block against Australia and crucial penalty shootout saves against the Netherlands and France, were defining moments of the tournament. Martínez’s calm demeanor, mind games during penalties, and larger-than-life personality made him a national hero. His Golden Glove award as the tournament’s best goalkeeper was well deserved and underscored his importance to Argentina's success."
-        imageSrc="/images/tournament/croatia.jpg"
+        imageSrc="/images/overview/overview_emilio.jpg"
         reverse
       />
       <Section
         title="Tactical Evolution Under Scaloni"
         text="Head coach Lionel Scaloni showcased remarkable tactical flexibility throughout the tournament. After the early shock against Saudi Arabia, Scaloni adjusted his approach, ensuring a more compact defense and a fluid attack. His decision to bring on Enzo Fernández, give Julián Álvarez a starting role, and deploy a 3-5-2 formation against Croatia were masterstrokes. Scaloni’s calm and pragmatic management created a cohesive team that could adapt to any challenge, proving that he is one of the brightest tactical minds in football today."
-        imageSrc="/images/tournament/france.jpg"
+        imageSrc="/images/overview/overview_scaloni.webp"
       />
       <Section
         title="Enzo Fernández - A Midfield Revelation"
         text="Few players burst onto the global stage at Qatar 2022 quite like Enzo Fernández. The young midfielder from Benfica became a key figure in Argentina’s setup, providing stability, vision, and moments of magic. His stunning goal against Mexico was a turning point for both his personal tournament and Argentina’s campaign. By the end of the competition, Fernández was named the Best Young Player of the tournament, heralding him as a generational talent who will anchor Argentina’s midfield for years to come."
-        imageSrc="/images/tournament/croatia.jpg"
+        imageSrc="/images/overview/overview_enzo.webp"
         reverse
       />
       <Section
         title="Argentina’s Fans - The 12th Man"
         text="From the streets of Buenos Aires to the stadiums in Qatar, Argentina's fans played an integral role in the team’s journey. Their passion, songs, and unwavering support created a home-like atmosphere for the team in every match. The iconic chant, 'Muchachos,' became the anthem of the tournament, echoing across stadiums and uniting fans worldwide. Argentina’s victory wasn’t just for the players—it was a triumph for the millions of fans who stood by their team through decades of highs and lows."
-        imageSrc="/images/tournament/france.jpg"
+        imageSrc="/images/overview/overview_fans.jpg"
       />
       <Section
         title="Historic Rivalries and Matches"
         text="The 2022 World Cup provided some unforgettable clashes that will go down in history. The quarterfinal against the Netherlands, featuring a dramatic comeback and a tense penalty shootout, reignited an old rivalry. Meanwhile, the final against France was a showcase of footballing brilliance, with Messi and Mbappé trading blows in a game that transcended sports. These matches highlighted Argentina’s grit, composure, and ability to shine under pressure."
-        imageSrc="/images/tournament/croatia.jpg"
+        imageSrc="/images/overview/overview_rival.webp"
         reverse
       />
       <Section
         title="Cultural Impact of the Win"
         text="Argentina’s World Cup triumph was more than just a sporting achievement; it was a cultural phenomenon. The victory united a nation struggling with economic hardships, giving people a reason to celebrate and come together. From murals of Messi painted on buildings to millions filling the streets of Buenos Aires for the victory parade, the win symbolized hope and joy for an entire generation. Football once again proved to be Argentina’s lifeblood, a source of pride and unity for the nation."
-        imageSrc="/images/tournament/france.jpg"
+        imageSrc="/images/overview/overview_impact.jpeg"
       />
 
       {/* Legacy */}
       <Box sx={{ mb: 8 }}>
-        <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
+        <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, color: 'primary.main' }}>
           Legacy: A Nation United
         </Typography>
         <Typography variant="body1" sx={{ lineHeight: 1.8, textAlign: 'start' }}>
@@ -201,7 +201,7 @@ const TournamentOverview: React.FC = () => {
       </Box>
 
       {/* Full-width Banner */}
-      <Box sx={{ mt: 6, position: 'relative', width: '100%', height: '400px' }}>
+      <Box sx={{ position: 'relative', width: '100%', height: '400px' }}>
         <Image
           src="/images/tournament/win.jpg"
           alt="Argentina Celebration Banner"

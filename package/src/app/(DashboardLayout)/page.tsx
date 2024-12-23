@@ -22,9 +22,18 @@ const Dashboard = () => {
       <Box>
         <Banner
           imageSrc="/images/home/messi.webp"
-          title="Argentina's Cinderella Story"
-          caption="A Data Visualization of the Tournament, & Messi's career capstone"
+          title="The Little Boy From Rosario, World Cup Champion"
+          caption="A Data-Driven Journey Through the Tournament That Defined a Nation and Cemented Messi's Legacy"
         />
+        <Box
+        sx={{
+          width: '100%',
+          height: '2px',
+          backgroundColor: 'primary.main',
+          marginBottom: '10px',
+          marginTop: '10px',
+        }}
+      />
 
         {/* Tabs Section */}
         <Box sx={{ width: '100%', mt: 4 }}>
