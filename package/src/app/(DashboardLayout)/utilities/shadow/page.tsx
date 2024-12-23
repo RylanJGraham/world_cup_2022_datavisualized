@@ -11,6 +11,7 @@ import { Tabs, Tab } from '@mui/material';
 import Papa from 'papaparse';
 import { FlagIcon } from 'react-flag-kit';
 import { useRouter } from 'next/navigation';  // For client-side navigation
+import Image from 'next/image';
 
 const countryCodeMapping = {
   Qatar: 'QA',
@@ -190,6 +191,34 @@ const Teams = () => {
 
   return (
     <PageContainer title="Shadow" description="Country Teams with Flags">
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          height: '300px',
+          margin: '0 auto', // Centers the Box horizontally
+          display: 'flex',
+          alignItems: 'center', // Centers the content vertically
+          justifyContent: 'center',
+          marginBottom: 4 // Centers the content horizontally
+        }}
+      >
+        <Image
+          src="/images/groups/banner_teams.jpg"
+          alt="image"
+          layout="fill"
+          objectFit="cover"
+          priority
+          style={{ borderRadius: '20px' }}
+        />
+      </Box>
+      <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, textAlign: 'center', color: 'primary.main' }}>
+      Meet the Teams
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', }}>
+      Discover the 32 teams that competed in Qatar, each with their unique stories, talents, and aspirations. From underdogs to powerhouses, this section showcases every squad that made the World Cup an unforgettable spectacle, with a special focus on the rivals Argentina faced on their journey to glory.
+      </Typography>
+      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '10px' }} />
       <Box sx={{ p: 3 }}>
         <Tabs
           value={selectedTab}

@@ -35,11 +35,11 @@ const Dashboard = () => {
             textColor="primary"
             indicatorColor="primary"
           >
-            <Tab label="Tournament Overview" />
-            <Tab label="The Road to Victory" />
-            <Tab label="Teams" />
-            <Tab label="Matches" />
-            <Tab label="Argentina vs Them All" />
+            <Tab label="Argentina’s Road to Glory" />
+            <Tab label="The Bigger Picture" />
+            <Tab label="Meet the Competition" />
+            <Tab label="The Beautiful Games" />
+            <Tab label="La Albiceleste Unveiled" />
           </Tabs>
           {/* Tab Content */}
           <Box sx={{ mt: 3 }}>

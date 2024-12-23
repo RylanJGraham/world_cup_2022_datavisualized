@@ -10,6 +10,8 @@ import { SportsSoccer, Flag as FlagIconMUI } from '@mui/icons-material';
 import PolarChartArgentina from "@/app/(DashboardLayout)/components/comparison/vis/PolarChartArgentina.jsx";
 import BarChartArgentina from "@/app/(DashboardLayout)/components/comparison/vis/BarChartArgentina";
 import ScatterChartArgentina from "@/app/(DashboardLayout)/components/comparison/vis/ScatterChartArgentina";
+import Image from 'next/image';
+import PageContainer from '../container/PageContainer';
 
 // Define the type for team details
 interface TeamDetails {
@@ -85,49 +87,38 @@ const Argentina = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', padding: '20px' }}>
+    <PageContainer title="Argentina" description="2022 FIFA World Cup Argentina">
       {/* Flag Banner at the top */}
       <Box
         sx={{
+          position: 'relative',
           width: '100%',
           height: '300px',
-          backgroundColor: 'lightgray',
-          position: 'relative',
+          margin: '0 auto',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          marginBottom: 4,
         }}
       >
-        <FlagIcon
-          code={teamDetails.countryCode}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            position: 'absolute',
-          }}
+        <Image
+          src="/images/groups/banner_arg.jpg"
+          alt="image"
+          layout="fill"
+          objectFit="cover"
+          priority
+          style={{ borderRadius: '20px' }}
         />
-        <Typography
-          variant="h1"
-          sx={{
-            color: 'white',
-            fontWeight: 'bold',
-            textTransform: 'uppercase',
-            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)',
-            position: 'absolute',
-            bottom: '20px',
-            left: '20px',
-          }}
-        >
-          {teamDetails.name}
-        </Typography>
       </Box>
-      <Typography variant="h2" sx={{ marginTop: '20px', textAlign: 'center', color: 'primary.main' }}>
-        Argentina vs Them All
+      <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, textAlign: 'center', color: 'primary.main' }}>
+        A Breakdown of Argentinas Team
       </Typography>
-      <Typography variant="h5" sx={{ marginTop: '10px', textAlign: 'center' }}>
-        View how Argentina stacked up against the competition below! With data visualizations of passing, possession, and more!
+      <Typography variant="body1" sx={{ mb: 4, textAlign: 'center' }}>
+      Step inside the heart of Argentinas squad. Explore their strengths, how they lined up against opponents,
+      and their strategies. Featuring Messis magic, this section provides an in-depth data analysis 
+      of the team that captured the hearts of millions and lifted the trophy for Argentina.
       </Typography>
+      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '30px' }} />
 
       {/* Main Content */}
       <Box sx={{ display: 'flex', paddingTop: '20px' }}>
@@ -194,7 +185,7 @@ const Argentina = () => {
           {selectedGraph === 'radar' && <PolarChartArgentina />}
         </Box>
       </Box>
-    </Box>
+    </PageContainer>
   );
 };
 

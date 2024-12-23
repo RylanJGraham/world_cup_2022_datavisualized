@@ -10,6 +10,8 @@ import MatchupAustraliaArgentina from '@/app/(DashboardLayout)/layout/Matchups/A
 import MatchupSaudiArgentina from '@/app/(DashboardLayout)/layout/Matchups/SaudiArgentina';
 import MatchupMexicoArgentina from '@/app/(DashboardLayout)/layout/Matchups/MexicoArgentina';
 import MatchupPolandArgentina from '@/app/(DashboardLayout)/layout/Matchups/PolandArgentina';
+import Image from 'next/image';
+import PageContainer from '../container/PageContainer';
 
 // Match data for Argentina's 2022 World Cup games
 const matchData = {
@@ -93,10 +95,39 @@ const MatchCard: React.FC = () => {
   };
 
   return (
-    <Box sx={{ py: 4, px: 2, maxWidth: '800px', margin: '0 auto' }}>
-      <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
-        Argentina&apos;s 2022 World Cup Matches
+    <PageContainer title="Matches" description="2022 FIFA World Cup Matches">
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          height: '300px',
+          margin: '0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: 4,
+        }}
+      >
+        <Image
+          src="/images/groups/banner_matches.webp"
+          alt="image"
+          layout="fill"
+          objectFit="cover"
+          priority
+          style={{ borderRadius: '20px' }}
+        />
+      </Box>
+
+      <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, textAlign: 'center', color: 'primary.main' }}>
+        Match Data Visualizations and Results
       </Typography>
+      <Typography variant="body1" sx={{ mb: 4, textAlign: 'center' }}>
+      Relive the action-packed matches that defined the tournament. From group-stage thrillers to nail-biting penalty shootouts, 
+      this section chronicles every match with detailed results, data visualizations, and key players. Witness how Argentina navigated 
+      their way through each challenge to claim ultimate victory.
+      </Typography>
+
+      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '30px' }} />
 
       {/* Tabs for stages */}
       <Tabs
@@ -133,7 +164,7 @@ const MatchCard: React.FC = () => {
           >
             {/* Match Date */}
             <Typography
-              variant="subtitle1"
+              variant="h6"
               sx={{
                 mb: 2,
                 fontWeight: 'bold',
@@ -155,14 +186,14 @@ const MatchCard: React.FC = () => {
               {/* Team 1 */}
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <CountryFlag country={match.team1} size={40} />
-                <Typography variant="body1" sx={{ ml: 2, fontWeight: 'bold' }}>
+                <Typography variant="h4" sx={{ ml: 2, fontWeight: 'bold' }}>
                   {match.team1}
                 </Typography>
               </Box>
 
               {/* Match Score */}
               <Typography
-                variant="body1"
+                variant="h2"
                 sx={{
                   fontWeight: 'bold',
                   textAlign: 'center',
@@ -174,7 +205,7 @@ const MatchCard: React.FC = () => {
 
               {/* Team 2 */}
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography variant="body1" sx={{ mr: 2, fontWeight: 'bold' }}>
+                <Typography variant="h4" sx={{ mr: 2, fontWeight: 'bold' }}>
                   {match.team2}
                 </Typography>
                 <CountryFlag country={match.team2} size={40} />
@@ -200,7 +231,7 @@ const MatchCard: React.FC = () => {
           </Box>
         );
       })}
-    </Box>
+    </PageContainer>
   );
 };
 
