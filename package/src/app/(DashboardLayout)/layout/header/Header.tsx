@@ -38,7 +38,7 @@ const Header = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <img src="/images/logos/qatar.png" alt="Logo" style={{ width: '30px', marginRight: '20px' }} />
           <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'white', textShadow: '0px 2px 4px rgba(0,0,0,0.6)' }}>
-            Qatar World Cup 2022 - Argentina's Road to Glory
+            Qatar World Cup 2022 - Argentina&apos;s Road to Glory
           </Typography>
         </Box>
       </ToolbarStyled>

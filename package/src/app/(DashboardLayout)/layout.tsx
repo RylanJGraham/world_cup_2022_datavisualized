@@ -44,7 +44,9 @@ export default function RootLayout({
         {/* ------------------------------------------- */}
         {/* Header */}
         {/* ------------------------------------------- */}
-        <Header />
+        <Header toggleMobileSidebar={function (...args: any[]) {
+          throw new Error("Function not implemented.");
+        } } />
         {/* ------------------------------------------- */}
         {/* PageContent */}
         {/* ------------------------------------------- */}

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
@@ -54,7 +54,8 @@ const Teams = () => {
     countryCode: string;
   }
 
-  const [selectedTab, setSelectedTab] = useState(0);
+  // Set `selectedTab` as a key of teams, allowing only valid keys ('all', 'quarters', 'semis', 'finals')
+  const [selectedTab, setSelectedTab] = useState<keyof typeof teams>('all');
   const [teams, setTeams] = useState<{
     all: Team[];
     quarters: Team[];
@@ -74,11 +75,11 @@ const Teams = () => {
     team2: string;
     category: string;
   }
-  
+
   const parseCSVData = async (csvPath: string) => {
     const response = await fetch(csvPath);
     const csvData = await response.text();
-  
+
     const parsedTeams: {
       all: Team[];
       quarters: Team[];
@@ -90,7 +91,7 @@ const Teams = () => {
       semis: [],
       finals: [],
     };
-  
+
     Papa.parse<CSVRow>(csvData, {
       header: true,
       skipEmptyLines: true,
@@ -99,14 +100,14 @@ const Teams = () => {
           const team1 = normalizeTeamName(row.team1);
           const team2 = normalizeTeamName(row.team2);
           const category = row.category;
-  
+
           const team1CountryCode = countryCodeMapping[
-            Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team1) || ''
+            Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team1) as keyof typeof countryCodeMapping
           ] || '??';
           const team2CountryCode = countryCodeMapping[
-            Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team2) || ''
+            Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team2) as keyof typeof countryCodeMapping
           ] || '??';
-  
+
           switch (category) {
             case 'Group A':
             case 'Group B':
@@ -135,13 +136,13 @@ const Teams = () => {
               break;
           }
         });
-  
+
         Object.keys(parsedTeams).forEach((round) => {
-          parsedTeams[round] = Array.from(
-            new Map(parsedTeams[round].map((team) => [team.name, team])).values()
+          parsedTeams[round as keyof typeof parsedTeams] = Array.from(
+            new Map(parsedTeams[round as keyof typeof parsedTeams].map((team) => [team.name, team])).values()
           );
         });
-  
+
         setTeams(parsedTeams);
       },
     });
@@ -153,7 +154,7 @@ const Teams = () => {
 
   const handleTabChange = (
     event: React.SyntheticEvent,
-    newValue: number
+    newValue: keyof typeof teams
   ) => {
     setSelectedTab(newValue);
   };
@@ -162,7 +163,7 @@ const Teams = () => {
     name: string;
     countryCode: string;
   }
-  
+
   const TeamCard: React.FC<TeamCardProps> = ({ name, countryCode }) => {
     return (
       <Card
@@ -196,11 +197,11 @@ const Teams = () => {
           position: 'relative',
           width: '100%',
           height: '300px',
-          margin: '0 auto', // Centers the Box horizontally
+          margin: '0 auto',
           display: 'flex',
-          alignItems: 'center', // Centers the content vertically
+          alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: 4 // Centers the content horizontally
+          marginBottom: 4
         }}
       >
         <Image
@@ -213,10 +214,10 @@ const Teams = () => {
         />
       </Box>
       <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, textAlign: 'center', color: 'primary.main' }}>
-      Meet the Teams
+        Meet the Teams
       </Typography>
-      <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', }}>
-      Discover the 32 teams that competed in Qatar, each with their unique stories, talents, and aspirations. From underdogs to powerhouses, this section showcases every squad that made the World Cup an unforgettable spectacle, with a special focus on the rivals Argentina faced on their journey to glory.
+      <Typography variant="body1" sx={{ mb: 4, textAlign: 'center' }}>
+        Discover the 32 teams that competed in Qatar, each with their unique stories, talents, and aspirations. From underdogs to powerhouses, this section showcases every squad that made the World Cup an unforgettable spectacle, with a special focus on the rivals Argentina faced on their journey to glory.
       </Typography>
       <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '10px' }} />
       <Box sx={{ p: 3 }}>
@@ -226,13 +227,13 @@ const Teams = () => {
           centered
           sx={{ paddingBottom: 3 }}
         >
-          <Tab label="All" />
-          <Tab label="Quarters" />
-          <Tab label="Semis" />
-          <Tab label="Finals" />
+          <Tab label="All" value="all" />
+          <Tab label="Quarters" value="quarters" />
+          <Tab label="Semis" value="semis" />
+          <Tab label="Finals" value="finals" />
         </Tabs>
         <Grid container spacing={3}>
-          {teams[Object.keys(teams)[selectedTab]].map((team) => (
+          {teams[selectedTab].map((team) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={team.name}>
               <TeamCard name={team.name} countryCode={team.countryCode} />
             </Grid>

@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 import Banner from '@/app/(DashboardLayout)/components/BannerHome/Banner';
 // Import Tab Content Components
-import Groups from './utilities/groups/page';
-import Teams from './utilities/shadow/page';
-import Argentina from './components/Argentina/page';
-import TournamentOverview from './components/Overview/page';
-import MatchCard from './components/Calendar/page';
+import Groups from '@/app/(DashboardLayout)/utilities/groups/page';
+import Teams from '@/app/(DashboardLayout)/utilities/shadow/page';
+import Argentina from '@/app/(DashboardLayout)/components/Argentina/page';
+import TournamentOverview from '@/app/(DashboardLayout)/components/Overview/page';
+import MatchCard from '@/app/(DashboardLayout)/components/Calendar/page';
 
 const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState(0);

@@ -1,7 +1,9 @@
+'use client'
+
 import React from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
-import PageContainer from '../container/PageContainer';
+import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 
 const TournamentOverview: React.FC = () => {
   const theme = useTheme();

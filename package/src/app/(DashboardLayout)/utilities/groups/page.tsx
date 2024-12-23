@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Ensures the code runs in a client-side environment in Next.js
 
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 import { Grid, Box, Tabs, Tab, Typography } from '@mui/material';
@@ -10,7 +10,11 @@ import { groupPoints, rounds } from '@/app/(DashboardLayout)/components/Bracket/
 import Image from 'next/image';
 
 const Groups = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(0); // State for managing the active tab
+
+  const handleTabChange = (_e: React.SyntheticEvent, newIndex: number) => {
+    setTabIndex(newIndex);
+  };
 
   return (
     <PageContainer title="Typography" description="2022 FIFA World Cup Bracket">
@@ -47,14 +51,14 @@ const Groups = () => {
 
       <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '30px' }} />
 
-      {/* Basic MUI Tabs */}
+      {/* Tabs Section */}
       <Tabs
         value={tabIndex}
-        onChange={(e, newIndex) => setTabIndex(newIndex)}
+        onChange={handleTabChange}
         centered
         textColor="primary"
         indicatorColor="primary"
-        style = {{
+        style={{
           marginBottom: '20px',
         }}
       >
@@ -63,26 +67,36 @@ const Groups = () => {
       </Tabs>
 
       {/* Tab Content */}
-      {tabIndex === 0 && (
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
-            <BracketComponent rounds={rounds} />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <MatchColumn rounds={rounds} />
-          </Grid>
-        </Grid>
-      )}
-
-      {tabIndex === 1 && (
-        <Grid container spacing={3}>
-          {Object.entries(groupPoints).map(([groupName, teams], groupId) => (
-            <Grid item xs={12} sm={6} md={3} key={groupName}>
-              <GroupCard groupName={groupName} teams={teams} index={groupId} />
+      <Box sx={{ mt: 3 }}>
+        {/* Bracket Progression */}
+        {tabIndex === 0 && (
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={8}>
+              <BracketComponent rounds={rounds} onShowTimetable={function (matchId: number): void {
+                throw new Error('Function not implemented.');
+              } } />
             </Grid>
-          ))}
-        </Grid>
-      )}
+            <Grid item xs={12} md={4}>
+              <MatchColumn rounds={rounds} onShowTimetable={function (matchId: number): void {
+                throw new Error('Function not implemented.');
+              } } />
+            </Grid>
+          </Grid>
+        )}
+
+        {/* Group Standings */}
+        {tabIndex === 1 && (
+          <Grid container spacing={3}>
+            {Object.entries(groupPoints).map(([groupName, teams], groupId) => (
+              <Grid item xs={12} sm={6} md={3} key={groupName}>
+                <GroupCard groupName={groupName} teams={teams} index={groupId} onShowTimetable={function (groupId: number): void {
+                  throw new Error('Function not implemented.');
+                } } />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+      </Box>
     </PageContainer>
   );
 };
