@@ -70,18 +70,7 @@ const Groups = () => {
       <Box sx={{ mt: 3 }}>
         {/* Bracket Progression */}
         {tabIndex === 0 && (
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={8}>
-              <BracketComponent rounds={rounds} onShowTimetable={function (matchId: number): void {
-                throw new Error('Function not implemented.');
-              } } />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <MatchColumn rounds={rounds} onShowTimetable={function (matchId: number): void {
-                throw new Error('Function not implemented.');
-              } } />
-            </Grid>
-          </Grid>
+          <BracketComponent></BracketComponent>
         )}
 
         {/* Group Standings */}

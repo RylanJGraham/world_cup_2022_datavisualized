@@ -38,6 +38,8 @@ const countryCodeMapping = {
   Ghana: 'GH',
   Brazil: 'BR',
   Serbia: 'RS',
+  USA: 'US',
+  Korea: 'KR'
 };
 
 // Flag component with dynamic size

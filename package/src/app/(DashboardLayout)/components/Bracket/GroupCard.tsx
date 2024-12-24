@@ -4,12 +4,12 @@ import { Card, Box, Typography } from '@mui/material';
 import Flag from 'react-world-flags';
 
 const GroupCard = ({ groupName, teams, onShowTimetable, index }: { groupName: string; teams: any[]; onShowTimetable: (groupId: number) => void; index: number }) => (
-  <Card sx={{ p: 2, mb: 2, backgroundColor: '#f5f5f5' }}>
-    <Typography variant="h6" sx={{ textAlign: 'center', mb: 1, fontWeight: 'bold' }}>
+  <Card sx={{ p: 2, mb: 2, backgroundColor: 'primary.main', boxShadow: 9, borderRadius: 2, }}>
+    <Typography variant="h6" sx={{ textAlign: 'center', mb: 1, fontWeight: 'bold', color: 'white', }}>
       {groupName}
     </Typography>
     {teams.map((team) => (
-      <Box key={team.name} sx={{ display: 'flex', justifyContent: 'space-between', p: 1, backgroundColor: team.qualified ? '#d4edda' : '#f8d7da', mb: 1 }}>
+      <Box key={team.name} sx={{ display: 'flex', justifyContent: 'space-between', p: 1, backgroundColor: team.qualified ? '#d4edda' : '#f8d7da', mb: 1, borderRadius: 2, }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Flag code={countryCodeMapping[team.name] || '??'} style={{ width: 30, height: 20, marginRight: 8 }} />
           <Typography>{team.name}</Typography>
@@ -53,6 +53,8 @@ const countryCodeMapping: { [key: string]: string } = {
     Ghana: 'GH',
     Brazil: 'BR',
     Serbia: 'RS',
+    USA: 'US',
+    Korea: 'KR'
 };
 
 export default GroupCard;

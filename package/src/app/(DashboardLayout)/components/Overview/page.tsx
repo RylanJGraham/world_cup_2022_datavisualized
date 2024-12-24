@@ -152,7 +152,7 @@ const TournamentOverview: React.FC = () => {
       <Section
         title="Rising Stars - Julián Álvarez’s Breakout"
         text="While Messi stole the spotlight, the tournament also served as a stage for Julián Álvarez's meteoric rise. The young striker scored four goals, including a stunning solo effort against Croatia in the semifinals. His relentless pressing, clinical finishing, and chemistry with Messi added a new dimension to Argentina’s attack. Álvarez’s performances announced him as the next star of Argentine football, giving fans hope for a bright future beyond this tournament."
-        imageSrc="/images/overview/overview_julian.jpg"
+        imageSrc="/images/overview/overview_julian.jpeg"
       />
       <Section
         title="Emiliano ‘Dibu’ Martínez - The Wall of Argentina"
