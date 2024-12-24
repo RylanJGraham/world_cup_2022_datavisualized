@@ -1,4 +1,4 @@
-'use client'
+'use client'; // Ensures this is a client-side component
 
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
@@ -9,52 +9,14 @@ import Typography from '@mui/material/Typography';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 import { Tabs, Tab } from '@mui/material';
 import Papa from 'papaparse';
-import { FlagIcon } from 'react-flag-kit';
-import { useRouter } from 'next/navigation';  // For client-side navigation
 import Image from 'next/image';
-
-const countryCodeMapping = {
-  Qatar: 'QA',
-  Ecuador: 'EC',
-  England: 'GB',
-  Iran: 'IR',
-  Senegal: 'SN',
-  Netherlands: 'NL',
-  'United States': 'US',
-  Wales: 'GB-WLS',
-  Argentina: 'AR',
-  'Saudi Arabia': 'SA',
-  Denmark: 'DK',
-  Tunisia: 'TN',
-  Mexico: 'MX',
-  Poland: 'PL',
-  France: 'FR',
-  Australia: 'AU',
-  Morocco: 'MA',
-  Croatia: 'HR',
-  Germany: 'DE',
-  Japan: 'JP',
-  Spain: 'ES',
-  'Costa Rica': 'CR',
-  Belgium: 'BE',
-  Canada: 'CA',
-  Switzerland: 'CH',
-  Cameroon: 'CM',
-  Uruguay: 'UY',
-  'Korea Republic': 'KR',
-  Portugal: 'PT',
-  Ghana: 'GH',
-  Brazil: 'BR',
-  Serbia: 'RS',
-};
+import CountryFlag from '@/app/(DashboardLayout)/components/flags/FlagIcon'; // Import your custom flag component
 
 const Teams = () => {
   interface Team {
     name: string;
-    countryCode: string;
   }
 
-  // Set `selectedTab` as a key of teams, allowing only valid keys ('all', 'quarters', 'semis', 'finals')
   const [selectedTab, setSelectedTab] = useState<keyof typeof teams>('all');
   const [teams, setTeams] = useState<{
     all: Team[];
@@ -68,7 +30,13 @@ const Teams = () => {
     finals: [],
   });
 
-  const normalizeTeamName = (name: string) => name.trim().toLowerCase();
+  const capitalizeFirstLetter = (name: string) => {
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
+
+  const normalizeTeamName = (name: string) => {
+    return capitalizeFirstLetter(name.trim());
+  };
 
   interface CSVRow {
     team1: string;
@@ -101,13 +69,6 @@ const Teams = () => {
           const team2 = normalizeTeamName(row.team2);
           const category = row.category;
 
-          const team1CountryCode = countryCodeMapping[
-            Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team1) as keyof typeof countryCodeMapping
-          ] || '??';
-          const team2CountryCode = countryCodeMapping[
-            Object.keys(countryCodeMapping).find((key) => normalizeTeamName(key) === team2) as keyof typeof countryCodeMapping
-          ] || '??';
-
           switch (category) {
             case 'Group A':
             case 'Group B':
@@ -117,26 +78,27 @@ const Teams = () => {
             case 'Group F':
             case 'Group G':
             case 'Group H':
-              parsedTeams.all.push({ name: row.team1, countryCode: team1CountryCode });
-              parsedTeams.all.push({ name: row.team2, countryCode: team2CountryCode });
+              parsedTeams.all.push({ name: team1 });
+              parsedTeams.all.push({ name: team2 });
               break;
             case 'Quarter-final':
-              parsedTeams.quarters.push({ name: row.team1, countryCode: team1CountryCode });
-              parsedTeams.quarters.push({ name: row.team2, countryCode: team2CountryCode });
+              parsedTeams.quarters.push({ name: team1 });
+              parsedTeams.quarters.push({ name: team2 });
               break;
             case 'Semi-final':
-              parsedTeams.semis.push({ name: row.team1, countryCode: team1CountryCode });
-              parsedTeams.semis.push({ name: row.team2, countryCode: team2CountryCode });
+              parsedTeams.semis.push({ name: team1 });
+              parsedTeams.semis.push({ name: team2 });
               break;
             case 'Final':
-              parsedTeams.finals.push({ name: row.team1, countryCode: team1CountryCode });
-              parsedTeams.finals.push({ name: row.team2, countryCode: team2CountryCode });
+              parsedTeams.finals.push({ name: team1 });
+              parsedTeams.finals.push({ name: team2 });
               break;
             default:
               break;
           }
         });
 
+        // Deduplicate teams within each round
         Object.keys(parsedTeams).forEach((round) => {
           parsedTeams[round as keyof typeof parsedTeams] = Array.from(
             new Map(parsedTeams[round as keyof typeof parsedTeams].map((team) => [team.name, team])).values()
@@ -161,10 +123,9 @@ const Teams = () => {
 
   interface TeamCardProps {
     name: string;
-    countryCode: string;
   }
 
-  const TeamCard: React.FC<TeamCardProps> = ({ name, countryCode }) => {
+  const TeamCard: React.FC<TeamCardProps> = ({ name }) => {
     return (
       <Card
         sx={{
@@ -180,7 +141,7 @@ const Teams = () => {
           },
         }}
       >
-        <FlagIcon code={countryCode} style={{ width: '100px', height: 'auto', marginBottom: '10px' }} />
+        <CountryFlag country={name} size={60} /> {/* Pass team name directly to CountryFlag */}
         <CardContent sx={{ textAlign: 'center' }}>
           <Typography component="div" variant="h6">
             {name}
@@ -235,7 +196,7 @@ const Teams = () => {
         <Grid container spacing={3}>
           {teams[selectedTab].map((team) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={team.name}>
-              <TeamCard name={team.name} countryCode={team.countryCode} />
+              <TeamCard name={team.name} />
             </Grid>
           ))}
         </Grid>

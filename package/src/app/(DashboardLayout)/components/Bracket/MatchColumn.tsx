@@ -2,7 +2,6 @@
 
 import { Box, Typography, Collapse } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import Flag from 'react-world-flags';
 import { useState } from 'react';
 import CountryFlag from '@/app/(DashboardLayout)/components/flags/FlagIcon.jsx';
 

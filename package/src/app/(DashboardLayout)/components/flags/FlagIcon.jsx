@@ -39,7 +39,11 @@ const countryCodeMapping = {
   Brazil: 'BR',
   Serbia: 'RS',
   USA: 'US',
-  Korea: 'KR'
+  Korea: 'KR',
+  'Korea republic': 'KR',
+  'Costa rica': 'CR',
+  'United states': 'US',
+  'Saudi arabia': 'SA'
 };
 
 // Flag component with dynamic size
