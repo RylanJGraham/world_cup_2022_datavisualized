@@ -70,7 +70,11 @@ const Groups = () => {
       <Box sx={{ mt: 3 }}>
         {/* Bracket Progression */}
         {tabIndex === 0 && (
-          <BracketComponent></BracketComponent>
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 2, width: '100%' }}>
+          <BracketComponent />
+    
+          <MatchColumn />
+        </Box>
         )}
 
         {/* Group Standings */}

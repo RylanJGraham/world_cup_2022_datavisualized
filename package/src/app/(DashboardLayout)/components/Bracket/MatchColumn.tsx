@@ -4,20 +4,188 @@ import { Box, Typography, Collapse } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import Flag from 'react-world-flags';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Use next/navigation for routing in App Directory
-import { IRoundProps } from 'react-brackets';
+import CountryFlag from '@/app/(DashboardLayout)/components/flags/FlagIcon.jsx';
 
-const MatchColumn = ({ rounds, onShowTimetable }: { rounds: IRoundProps[]; onShowTimetable: (matchId: number) => void }) => {
+// Type Definitions
+type Team = {
+  name: string;
+  score: number;
+  penaltyWinner?: boolean; // Optional property to mark penalty winner
+};
+
+type Seed = {
+  id: number;
+  date: string;
+  teams: [Team, Team];
+};
+
+type Round = {
+  title: string;
+  seeds: Seed[];
+};
+
+export const rounds: Round[] = [
+  {
+    title: 'Round of 16',
+    seeds: [
+      {
+        id: 1,
+        date: '2022-12-09',
+        teams: [
+          { name: 'Croatia', score: 1, penaltyWinner: true },
+          { name: 'Japan', score: 1 },
+        ],
+      },
+      {
+        id: 2,
+        date: '2022-12-09',
+        teams: [
+          { name: 'Brazil', score: 4 },
+          { name: 'Korea', score: 1 },
+        ],
+      },
+      {
+        id: 3,
+        date: '2022-12-09',
+        teams: [
+          { name: 'Netherlands', score: 3 },
+          { name: 'USA', score: 1 },
+        ],
+      },
+      {
+        id: 4,
+        date: '2022-12-09',
+        teams: [
+          { name: 'Argentina', score: 2 },
+          { name: 'Australia', score: 1 },
+        ],
+      },
+      {
+        id: 5,
+        date: '2022-12-09',
+        teams: [
+          { name: 'Morocco', score: 0, penaltyWinner: true },
+          { name: 'Spain', score: 0 },
+        ],
+      },
+      {
+        id: 6,
+        date: '2022-12-09',
+        teams: [
+          { name: 'Portugal', score: 6 },
+          { name: 'Switzerland', score: 1 },
+        ],
+      },
+      {
+        id: 7,
+        date: '2022-12-09',
+        teams: [
+          { name: 'France', score: 3 },
+          { name: 'Poland', score: 1 },
+        ],
+      },
+      {
+        id: 8,
+        date: '2022-12-09',
+        teams: [
+          { name: 'England', score: 3 },
+          { name: 'Senegal', score: 0 },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Quarters',
+    seeds: [
+      {
+        id: 1,
+        date: '2022-12-09',
+        teams: [
+          { name: 'Croatia', score: 1, penaltyWinner: true },
+          { name: 'Brazil', score: 1 },
+        ],
+      },
+      {
+        id: 2,
+        date: '2022-12-09',
+        teams: [
+          { name: 'Netherlands', score: 2 },
+          { name: 'Argentina', score: 2, penaltyWinner: true },
+        ],
+      },
+      {
+        id: 3,
+        date: '2022-12-10',
+        teams: [
+          { name: 'Morocco', score: 1 },
+          { name: 'Portugal', score: 0 },
+        ],
+      },
+      {
+        id: 4,
+        date: '2022-12-10',
+        teams: [
+          { name: 'England', score: 1 },
+          { name: 'France', score: 2 },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Semis',
+    seeds: [
+      {
+        id: 5,
+        date: '2022-12-13',
+        teams: [
+          { name: 'Argentina', score: 3 },
+          { name: 'Croatia', score: 0 },
+        ],
+      },
+      {
+        id: 6,
+        date: '2022-12-14',
+        teams: [
+          { name: 'France', score: 2 },
+          { name: 'Morocco', score: 0 },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Final',
+    seeds: [
+      {
+        id: 7,
+        date: '2022-12-18',
+        teams: [
+          { name: 'Argentina', score: 3, penaltyWinner: true },
+          { name: 'France', score: 3 },
+        ],
+      },
+    ],
+  },
+];
+
+const MatchColumn = () => {
   const [openRound, setOpenRound] = useState<string | null>('Round of 16');
-  const router = useRouter(); // Use useRouter from next/navigation
-
-  const handleMatchClick = (team1: string, team2: string) => {
-    const matchId = `${encodeURIComponent(team1.replace(/\s+/g, '').toLowerCase())}${encodeURIComponent(team2.replace(/\s+/g, '').toLowerCase())}_match`;
-    router.push(`/utilities/matchup/${matchId}`);
-  };
 
   return (
-    <Box sx={{ width: '100%', paddingLeft: 3 }}>
+    <Box sx={{ width: '30%', paddingLeft: 3 }}>
+      <Typography
+        variant="h6"
+        sx={{
+          marginBottom: 2,
+          fontWeight: 'bold',
+          textAlign: 'center',
+          textTransform: 'uppercase',
+          color: 'primary.main',
+        }}
+      >
+        Round Overview
+      </Typography>
+      {/* Horizontal Line Under the Title */}
+      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '27px' }} />
       {rounds.map((round) => (
         <Box key={round.title} sx={{ mb: 3 }}>
           <Box
@@ -27,9 +195,9 @@ const MatchColumn = ({ rounds, onShowTimetable }: { rounds: IRoundProps[]; onSho
               alignItems: 'center',
               cursor: 'pointer',
               p: 1,
-              backgroundColor: '#5D87FF',
+              backgroundColor: 'primary.main',
               borderRadius: 1,
-              '&:hover': { backgroundColor: '#4cc9f0' },
+              '&:hover': { backgroundColor: '#8a4c5f' },
             }}
             onClick={() => setOpenRound(openRound === round.title ? null : round.title)}
           >
@@ -44,6 +212,7 @@ const MatchColumn = ({ rounds, onShowTimetable }: { rounds: IRoundProps[]; onSho
             </Typography>
             <ExpandMoreIcon sx={{ color: 'white', transform: openRound === round.title ? 'rotate(180deg)' : 'rotate(0deg)' }} />
           </Box>
+
           <Collapse in={openRound === round.title} timeout="auto" unmountOnExit>
             {round.seeds.map((seed) => (
               <Box
@@ -59,8 +228,8 @@ const MatchColumn = ({ rounds, onShowTimetable }: { rounds: IRoundProps[]; onSho
                   boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.3)',
                   cursor: 'pointer',
                 }}
-                onClick={() => handleMatchClick(seed.teams[0]?.name || 'NO TEAM', seed.teams[1]?.name || 'NO TEAM')}
               >
+                {/* Team 1 */}
                 <Box
                   sx={{
                     display: 'flex',
@@ -69,10 +238,18 @@ const MatchColumn = ({ rounds, onShowTimetable }: { rounds: IRoundProps[]; onSho
                     flex: 1,
                   }}
                 >
-                  <Flag code={seed.teams[0]?.countryCode || ''} style={{ width: 30, height: 20, marginRight: 8, boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.3)', }} />
-                  <Typography variant="body1">{seed.teams[0]?.name || 'NO TEAM'}</Typography>
+                  <CountryFlag country={seed.teams[0].name} size={30} />
+                  <Typography sx={{ mx: 1 }} variant="body1">
+                    {seed.teams[0]?.name || 'NO TEAM'}
+                    {seed.teams[0]?.penaltyWinner && (
+                      <Typography component="span" sx={{ color: 'red', fontWeight: 'bold' }}>
+                        {' (P)'}
+                      </Typography>
+                    )}
+                  </Typography>
                 </Box>
 
+                {/* Match Score */}
                 <Box
                   sx={{
                     display: 'flex',
@@ -81,17 +258,18 @@ const MatchColumn = ({ rounds, onShowTimetable }: { rounds: IRoundProps[]; onSho
                     flex: 1,
                   }}
                 >
-                  <Typography variant="body1" sx={{ mx: 1, fontWeight: 'bold' }}>
+                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                     {seed.teams[0]?.score ?? '0'}
                   </Typography>
                   <Typography variant="body1" sx={{ mx: 1, fontWeight: 'bold' }}>
                     vs
                   </Typography>
-                  <Typography variant="body1" sx={{ mx: 1, fontWeight: 'bold' }}>
+                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                     {seed.teams[1]?.score ?? '0'}
                   </Typography>
                 </Box>
 
+                {/* Team 2 */}
                 <Box
                   sx={{
                     display: 'flex',
@@ -100,8 +278,15 @@ const MatchColumn = ({ rounds, onShowTimetable }: { rounds: IRoundProps[]; onSho
                     flex: 1,
                   }}
                 >
-                  <Typography variant="body1">{seed.teams[1]?.name || 'NO TEAM'}</Typography>
-                  <Flag code={seed.teams[1]?.countryCode || ''} style={{ width: 30, height: 20, marginLeft: 8, boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.3)', }} />
+                  <Typography sx={{ mx: 1 }} variant="body1">
+                    {seed.teams[1]?.name || 'NO TEAM'}
+                    {seed.teams[1]?.penaltyWinner && (
+                      <Typography component="span" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+                        {' (P)'}
+                      </Typography>
+                    )}
+                  </Typography>
+                  <CountryFlag country={seed.teams[1].name} size={30} />
                 </Box>
               </Box>
             ))}

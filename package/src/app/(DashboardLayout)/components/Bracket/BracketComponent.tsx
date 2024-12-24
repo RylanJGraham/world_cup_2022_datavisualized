@@ -166,7 +166,7 @@ export const rounds: Round[] = [
 
 const BracketComponent = () => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, width: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, width: '70%' }}>
       {rounds.map((round, roundIndex) => (
         <Box
           key={roundIndex}
@@ -186,8 +186,8 @@ const BracketComponent = () => {
   
           <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 16 }}>
             {round.title === 'Round of 16' ? (
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 12, margin: 1, }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, margin: 1, }}>
                   {round.seeds.slice(0, 4).map((seed) => (
                     <Box
                       key={seed.id}
@@ -195,14 +195,14 @@ const BracketComponent = () => {
                         border: '2px solid',
                         borderColor: 'primary.main',
                         borderRadius: 2,
-                        padding: 2,
+                        padding: 1,
                         boxShadow: 8,
                         backgroundColor: 'primary.main',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         gap: 1,
-                        minWidth: '200px',
+                        minWidth: '180px',
                       }}
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -232,7 +232,7 @@ const BracketComponent = () => {
                     </Box>
                   ))}
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 12, margin: 1, }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, margin: 1, }}>
                   {round.seeds.slice(4, 8).map((seed) => (
                     <Box
                       key={seed.id}
@@ -247,7 +247,7 @@ const BracketComponent = () => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         gap: 1,
-                        minWidth: '200px',
+                        minWidth: '180px',
                       }}
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -279,7 +279,7 @@ const BracketComponent = () => {
                 </Box>
               </Box>
             ) : round.title === 'Quarters' ? (
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 {round.seeds.map((seed) => (
                   <Box
                     key={seed.id}
@@ -289,12 +289,12 @@ const BracketComponent = () => {
                         borderRadius: 2,
                         padding: 2,
                         boxShadow: 8,
-                      backgroundColor: 'primary.main',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: 1,
-                      minWidth: '200px',
+                        backgroundColor: 'primary.main',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: 1,
+                        minWidth: '180px',
                     }}
                   >
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -325,7 +325,7 @@ const BracketComponent = () => {
                 ))}
               </Box>
             ) : (
-              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 4 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
                 {round.seeds.map((seed) => (
                   <Box
                     key={seed.id}
@@ -340,7 +340,7 @@ const BracketComponent = () => {
                       flexDirection: 'column',
                       alignItems: 'center',
                       gap: 1,
-                      minWidth: '200px',
+                      minWidth: '260px',
                     }}
                   >
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
