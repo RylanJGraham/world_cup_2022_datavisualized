@@ -10,6 +10,7 @@ import { SportsSoccer, Flag as FlagIconMUI } from '@mui/icons-material';
 import PolarChartArgentina from "@/app/(DashboardLayout)/components/comparison/vis/PolarChartArgentina.jsx";
 import BarChartArgentina from "@/app/(DashboardLayout)/components/comparison/vis/BarChartArgentina";
 import ScatterChartArgentina from "@/app/(DashboardLayout)/components/comparison/vis/ScatterChartArgentina";
+import ArgentinaGrid from "@/app/(DashboardLayout)/components/comparison/arg/grid";
 import Image from 'next/image';
 import PageContainer from '../container/PageContainer';
 
@@ -62,9 +63,9 @@ const Argentina = () => {
   const [selectedGraph, setSelectedGraph] = useState('passes');
 
   const graphOptions = [
-    { name: 'passes', label: 'Pass Total vs Completions', icon: <SportsSoccer sx={{ fontSize: '2rem' }} /> },
-    { name: 'possession', label: 'Game Possession Statistics', icon: <FlagIconMUI sx={{ fontSize: '2rem' }} /> },
-    { name: 'radar', label: 'Team Comparison (Radar)', icon: <SportsEsports sx={{ fontSize: '2rem' }} /> }, 
+    { name: 'passes', label: 'Passing', icon: <SportsSoccer sx={{ fontSize: '2rem' }} /> },
+    { name: 'possession', label: 'Possession', icon: <FlagIconMUI sx={{ fontSize: '2rem' }} /> },
+    { name: 'radar', label: 'Wholistic', icon: <SportsEsports sx={{ fontSize: '2rem' }} /> }, 
   ];
 
   const handleListItemClick = (graphType: string) => {
@@ -120,21 +121,30 @@ const Argentina = () => {
       </Typography>
       <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '30px' }} />
 
+      <ArgentinaGrid></ArgentinaGrid>
       {/* Main Content */}
-      <Box sx={{ display: 'flex', paddingTop: '20px' }}>
+      <Box sx={{ display: 'flex', paddingTop: '6px' }}>
         {/* Left Panel with List */}
         <Box
           sx={{
-            width: '400px',
+            width: '300px',
             paddingRight: '20px',
             display: 'flex',
             flexDirection: 'column',
-            marginTop: '20px',
+            marginTop: '8px',
           }}
         >
-          <Typography variant="h5" align="left" sx={{ marginBottom: '20px' }}>
-            Explore Data
+          <Typography variant="h4" align="left" sx={{ marginBottom: '6px', paddingLeft: '6px' }}>
+            Data Categories
           </Typography>
+          <Box
+        sx={{
+          width: '100%',
+          height: '2px',
+          backgroundColor: 'primary.main',
+          marginBottom: '10px',
+        }}
+      />
           <List
             sx={{
               '& .MuiListItemButton:not(:last-child)': {

@@ -78,6 +78,34 @@ const MatchCard = () => {
 
   return (
     <PageContainer title="Matches" description="2022 FIFA World Cup Matches">
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          height: '300px',
+          margin: '0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: 4
+        }}
+      >
+        <Image
+          src="/images/groups/banner_matches.webp"
+          alt="image"
+          layout="fill"
+          objectFit="cover"
+          priority={true}
+          style={{ borderRadius: '20px' }}
+        />
+      </Box>
+      <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, textAlign: 'center', color: 'primary.main' }}>
+        Match Highlights and Results
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 4, textAlign: 'center' }}>
+      Relive the action-packed matches that defined the tournament. From group-stage thrillers to nail-biting penalty shootouts, this section chronicles every match with detailed results, highlights, and key moments. Witness how Argentina navigated their way through each challenge to claim ultimate victory.
+      </Typography>
+      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '10px' }} />
       <Box>
         {/* Tabs Section */}
         <Box sx={{ width: '100%', mt: 4 }}>
