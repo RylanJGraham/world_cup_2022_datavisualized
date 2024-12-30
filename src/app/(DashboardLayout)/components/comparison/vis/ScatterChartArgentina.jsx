@@ -165,7 +165,7 @@ const ScatterChartArgentina = () => {
           <Box sx={{ padding: '16px', maxWidth: '300px', backgroundColor: 'primary.main' }}>
             <Typography variant="body1" sx={{ color: 'white' }}>
               This chart shows how Argentina performed in their passing and completion against
-              various teams in their tournament journey. Select teams to view Argentina's stats.
+              various teams in their tournament journey. Select teams to view Argentinas stats.
               Hover, Click, & Learn More!
             </Typography>
           </Box>

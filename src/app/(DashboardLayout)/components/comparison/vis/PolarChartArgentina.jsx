@@ -250,7 +250,7 @@ const renderRadarChart = () => {
             
               <Box sx={{ padding: '16px', maxWidth: '300px', backgroundColor: 'primary.main' }}>
                 <Typography variant="body1" sx={{color: 'white'}}>
-                  This chart how Argentina performed against various teams in their tournament journey. Select teams to view Argentina's statistics against them. Hover, Click, & Learn More!
+                  This chart how Argentina performed against various teams in their tournament journey. Select teams to view Argentinas statistics against them. Hover, Click, & Learn More!
                 </Typography>
               </Box>
             </Popover>
