@@ -105,7 +105,7 @@ const Argentina = () => {
               />
             </Box>
               <Typography variant="body1" sx={{textAlign: 'center', fontWeight: 'bold', marginTop: '0px', marginBottom: '20px'}}>
-              Explore how Argentinas performance evolved throughout the FIFA World Cup as we compare their key metrics against selected teams. This page highlights Argentina's strengths and challenges, offering a close look at how their strategies and gameplay adapted in the tournament. Dive into the data to see how Argentina's journey unfolded across different matchups in their pursuit of World Cup glory.
+              Explore how Argentinas performance evolved throughout the FIFA World Cup as we compare their key metrics against selected teams. This page highlights Argentinas strengths and challenges, offering a close look at how their strategies and gameplay adapted in the tournament. Dive into the data to see how Argentinas journey unfolded across different matchups in their pursuit of World Cup glory.
               </Typography>
               <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '0px' }} />
               <Box width= '100%' sx={{display: 'flex', flexDirection: 'row'}}>
