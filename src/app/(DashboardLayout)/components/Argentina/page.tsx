@@ -9,6 +9,7 @@ import ScatterChartArgentina from "@/app/(DashboardLayout)/components/comparison
 import ArgentinaGrid from "@/app/(DashboardLayout)/components/comparison/arg/grid";
 import ArgentinaGoalLocations from "@/app/(DashboardLayout)/components/comparison/vis/ArgentinaGoalLocations";
 import PageContainer from '../container/PageContainer';
+import Image from 'next/image';
 
 // Mapping team names to country codes (ISO 3166-1 alpha-2)
 const countryCodeMapping: Record<string, string> = {
@@ -63,7 +64,7 @@ const Argentina = () => {
           of the team that captured the hearts of millions and lifted the trophy for Argentina.
         </Typography>
         <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '30px' }} />
-
+        
         {/* Tabs Section */}
         <Tabs
           value={activeTab}
@@ -73,18 +74,60 @@ const Argentina = () => {
           indicatorColor="primary"
           sx={{ marginBottom: '20px' }}
         >
-          <Tab label="An Inside Look" />
-          <Tab label="How Argentina Competed" />
+          <Tab label="An Inside Look" sx={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
+          <Tab label="How Argentina Competed" sx={{ fontSize: '1.0rem', fontWeight: 'bold' }} />
           
         </Tabs>
 
         {/* Tab Content */}
         <Box sx={{ mt: 3 }}>
           {activeTab === 1 && (
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              <Box
+              sx={{
+                position: 'relative',
+                width: '100%',
+                height: '300px',
+                margin: '0 auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 2
+              }}
+            >
+              <Image
+                src="/images/groups/banner_arg.jpg"
+                alt="image"
+                layout="fill"
+                objectFit="cover"
+                priority
+                style={{ borderRadius: '20px' }}
+              />
+            </Box>
+              <Typography variant="body1" sx={{textAlign: 'center', fontWeight: 'bold', marginTop: '0px', marginBottom: '20px'}}>
+              Explore how Argentinas performance evolved throughout the FIFA World Cup as we compare their key metrics against selected teams. This page highlights Argentina's strengths and challenges, offering a close look at how their strategies and gameplay adapted in the tournament. Dive into the data to see how Argentina's journey unfolded across different matchups in their pursuit of World Cup glory.
+              </Typography>
+              <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '0px' }} />
+              <Box width= '100%' sx={{display: 'flex', flexDirection: 'row'}}>
+                <Box sx={{width: '300px', paddingRight: '10px', marginRight: '20px'}}>
+                  <Typography variant="body1" sx={{textAlign: 'left', fontWeight: 'bold', color: 'primary.main', marginTop: '20px', marginBottom: '20px'}}>
+                  Choose a topic below to begin!
+                  </Typography>
+                </Box>
+                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                  <Typography variant="body1" sx={{textAlign: 'center', fontWeight: 'bold', marginTop: '20px', marginBottom: '0px'}}>
+                   Got a topic? Select the teams below the graphic to see how Argentinas performed against them in the selected category. Confused? Just click the Information Icon.
+                  </Typography>
+                  <Typography variant="body1" sx={{textAlign: 'center', fontWeight: 'bold', color: 'primary.main', marginTop: '0px', marginBottom: '20px'}}>
+                    Toggle, Hover, & Explore how Argentinas performance varied against their opponents! 
+                  </Typography>
+                </Box>
+              </Box>
             <Box sx={{ display: 'flex' }}>
               {/* Left Panel with List of Graphs */}
               <Box sx={{ width: '300px', paddingRight: '20px' }}>
-                <Typography variant="h6" sx={{ mb: 2 }}>Select Graph</Typography>
+                <Typography variant="h4" sx={{ mb: 2 }}>Visualization Categories</Typography>
+                <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '-9px' }} />
                 <List>
                   {graphOptions.map((graph) => (
                     <ListItemButton
@@ -103,7 +146,7 @@ const Argentina = () => {
                       <ListItemText
                         primary={
                           <Typography
-                            variant="body1"
+                            variant="h6"
                             sx={{
                               color: selectedGraph === graph.name ? 'white' : 'black',
                               fontWeight: 600,
@@ -125,6 +168,7 @@ const Argentina = () => {
                 {selectedGraph === 'radar' && <PolarChartArgentina />}
                 {selectedGraph === 'locations' && <ArgentinaGoalLocations />}
               </Box>
+            </Box>
             </Box>
           )}
 
