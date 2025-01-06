@@ -27,12 +27,12 @@ const GoalScorers = ({ players }) => {
   const safeTotalGoals = totalGoals > 0 ? totalGoals : 1;
 
   const colorPalette = [
-    '#6BC4FF', // Green
-    '##5194FF', // Purple
-    '#3859FF', // Tomato (Red)
-    '#322CFF', // Gold
-    '#8884d8',
-    '#82ca9d',
+    '#FA896B', // Green
+    '#49BEFF', // Purple
+    '#008080', // Tomato (Red)
+    '#7F1431', // Gold
+    '#228B22',
+    '#4B0082',
   ];
 
   const getPlayerColor = (playerName, colorPalette) => {
@@ -86,6 +86,24 @@ const radialData = {
       .toLowerCase()
       .replace(/\s+/g, '_')  // Replace spaces with underscores
       .normalize("NFD").replace(/[\u0300-\u036f]/g, '');  // Remove accents (optional)
+  };
+
+  // Tooltip content customization
+  const CustomTooltip = ({ payload, label }) => {
+    if (payload && payload.length > 0) {
+      const { name, uv } = payload[0].payload; // Get player name and percentage value
+      return (
+        <Box sx={{ backgroundColor: 'white', padding: '10px', borderRadius: '4px', border: '1px solid #ddd' }}>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+            {name}
+          </Typography>
+          <Typography variant="body2">
+            {uv}% Contribution
+          </Typography>
+        </Box>
+      );
+    }
+    return null;
   };
 
   // Function to get the caption for the chart based on selected tab
@@ -244,58 +262,25 @@ const radialData = {
       </Box>
 
       {/* Right Section for Chart */}
-      <Box sx={{
-        width: '100%', // Occupy the remaining 50% of the container
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center', // Center the content horizontally
-        justifyContent: 'flex-start',
-      }}>
-        {/* Chart Title */}
+      <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+           {/* Chart Title */}
         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '0px', marginTop: '20px' }}>
           {getChartCaption()} {/* Chart caption based on selected tab */}
         </Box>
 
-        {/* Radial Bar Chart */}
-        <Box sx={{
-          width: '100%', // Allow the chart to take up the full width
-          height: '400px',
-          margin: '0px',
-          overflow: 'hidden',
-          display: 'flex',
-          justifyContent: 'left',
-          alignItems: 'left',
-        }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <RadialBarChart 
-              width={1400} 
-              height={250} 
-              innerRadius="20%" 
-              outerRadius="80%" 
-              data={radialData[selectedTab]} // Update chart data based on selectedTab
-              startAngle={0} 
-              endAngle={360}
-            >
-              <RadialBar 
-                minAngle={0} 
-                label={{ fill: 'white', position: 'insideStart' }} 
-                background 
-                clockWise={true} 
-                dataKey="uv" 
-              />
-              <Tooltip />
-              <Legend 
-                verticalAlign="top" 
-                align="center" 
-                iconSize={10} 
-                wrapperStyle={{ paddingTop: '20px' }} 
-                />
-            </RadialBarChart>
-          </ResponsiveContainer>
-        </Box>
+          {/* Radial Bar Chart */}
+          <Box sx={{ width: '100%', height: '400px', margin: '0px', overflow: 'hidden', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <RadialBarChart width={1400} height={250} innerRadius="20%" outerRadius="80%" data={radialData[selectedTab]} startAngle={0} endAngle={360}>
+                <RadialBar minAngle={0} label={{ fill: 'white', position: 'insideStart' }} background clockWise={true} dataKey="uv" />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend verticalAlign="top" align="center" iconSize={10} wrapperStyle={{ paddingTop: '20px' }} />
+              </RadialBarChart>
+            </ResponsiveContainer>
+          </Box>
       </Box>
     </Box>
-    </Box>
+  </Box>
   );
 };
 

@@ -120,7 +120,7 @@ const PossessionBar = ({ possessionData }) => {
           <Box
             sx={{
               width: `${team2.possession}%`,
-              backgroundColor: '#2f59a4',
+              backgroundColor: 'primary.main',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-start',

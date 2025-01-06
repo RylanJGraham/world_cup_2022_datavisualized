@@ -5,7 +5,7 @@ import {
   Popover,
   IconButton,
 } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info'; // Import the Info icon
+import InfoIcon from '@mui/icons-material/Info';
 import {
   BarChart,
   Bar,
@@ -18,70 +18,48 @@ import {
   LabelList,
 } from 'recharts';
 import CountryFlag from '@/app/(DashboardLayout)/components/flags/FlagIcon';
+import Argentina from '../../Argentina/page';
 
-// Sample team data for possession percentages (for each game)
-const teamData = [
-  {
-    game: 'vs Mexico',
-    argentina: 50,
-    Mexico: 36,
-  },
-  {
-    game: 'vs Netherlands',
-    argentina: 44,
-    Netherlands: 45,
-  },
-  {
-    game: 'vs Poland',
-    argentina: 67,
-    Poland: 24,
-  },
-  {
-    game: 'vs France',
-    argentina: 46,
-    France: 40,
-  },
-  {
-    game: 'vs Australia',
-    argentina: 53,
-    Australia: 35,
-  },
-  {
-    game: 'vs Croatia',
-    argentina: 34,
-    Croatia: 54,
-  },
-  {
-    game: 'vs Saudi Arabia',
-    argentina: 64,
-    SaudiArabia: 24,
-  },
+type TeamData = {
+  game: string;
+  argentina: number;
+  [key: string]: number | string;
+};
+
+const teamData: TeamData[] = [
+  { game: 'vs Mexico', argentina: 50, Mexico: 36 },
+  { game: 'vs Netherlands', argentina: 44, Netherlands: 45 },
+  { game: 'vs Poland', argentina: 67, Poland: 24 },
+  { game: 'vs France', argentina: 46, France: 40 },
+  { game: 'vs Australia', argentina: 53, Australia: 35 },
+  { game: 'vs Croatia', argentina: 34, Croatia: 54 },
+  { game: 'vs Saudi Arabia', argentina: 64, SaudiArabia: 24 },
 ];
 
-// Define colors for each team
-const teamColors = {
-  Mexico: '#56042C',
-  Netherlands: '#FFBA2F',
-  Poland: '#5899D4',
-  France: '#217A70',
-  Australia: '#F5B49D',
-  Croatia: '#2C7759',
-  SaudiArabia: '#75AE18',
-  Argentina: '#0066B3', // Argentina is included with a fixed color
+type Team = 'Argentina' | 'Mexico' | 'Netherlands' | 'Poland' | 'France' | 'Australia' | 'Croatia' | 'SaudiArabia';
+
+const teamColors: Record<Team, string> = {
+  SaudiArabia: '#FA896B',
+  Mexico: '#49BEFF',
+  Poland: '#008080',
+  Australia: '#7F1431',
+  Netherlands: '#FFD700',
+  Croatia: '#228B22',
+  France: '#4B0082',
+  Argentina: '#0066B3',
 };
 
 const StackedBarChartArgentina = () => {
-  const [selectedTeams, setSelectedTeams] = useState([]); // Track selected teams
-  const [anchorEl, setAnchorEl] = useState(null); // State for the popover
+  const [selectedTeams, setSelectedTeams] = useState<Team[]>([]); 
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null); 
 
-  // Toggle team selection
-  const toggleTeamSelection = (team) => {
+  const toggleTeamSelection = (team: Team) => {
     setSelectedTeams((prev) =>
       prev.includes(team) ? prev.filter((t) => t !== team) : [...prev, team]
     );
   };
 
-  const handlePopoverOpen = (event) => {
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -91,26 +69,7 @@ const StackedBarChartArgentina = () => {
 
   const isPopoverOpen = Boolean(anchorEl);
 
-  // Custom label renderer for the bars
-  const renderCustomLabel = (props) => {
-    const { x, y, width, height, value, team } = props;
-    if (!value) return null; // Don't render for empty values
-
-    return (
-      <foreignObject
-        x={x + width / 2 - 10}
-        y={y + height / 2 - 10}
-        width={20}
-        height={20}
-        style={{ pointerEvents: 'none' }}
-      >
-        <CountryFlag country={team} size={20} />
-      </foreignObject>
-    );
-  };
-
-  // Custom Tooltip for the Bar Chart
-  const CustomTooltip = ({ active, payload }) => {
+  const CustomTooltip = ({ active, payload }: { active: boolean; payload: { payload: TeamData }[] }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
@@ -124,9 +83,8 @@ const StackedBarChartArgentina = () => {
           }}
         >
           <Typography variant="h6">{data.game}</Typography>
-          {/* Only show teams with possession percentages */}
           {selectedTeams.map((team) => {
-            if (data[team] > 0) {
+            if (Number(data[team]) > 0) { 
               return (
                 <Box key={team} display="flex" alignItems="center">
                   <CountryFlag country={team} size={16} />
@@ -138,7 +96,6 @@ const StackedBarChartArgentina = () => {
             }
             return null;
           })}
-          {/* Always show Argentina's possession */}
           <Box display="flex" alignItems="center" mb={1}>
             <CountryFlag country="Argentina" size={16} />
             <Typography variant="body2" ml={1}>
@@ -151,18 +108,22 @@ const StackedBarChartArgentina = () => {
     return null;
   };
 
-  // Filter data to show only Argentina's possession for the selected game(s)
-  const filteredData = teamData
-    .map((game) => {
-      const filteredGame = { game: game.game, argentina: game.argentina };
-      selectedTeams.forEach((team) => {
-        if (game[team] !== undefined) {
-          filteredGame[team] = game[team];
-        }
-      });
-      return filteredGame;
-    })
-    .filter((game) => selectedTeams.some((team) => game[team] !== undefined));
+  const filteredData = teamData.map((game) => {
+    const filteredGame: { game: string; argentina: number; [key: string]: number | string } = {
+      game: game.game,
+      argentina: game.argentina,
+    };
+  
+    // Add only the selected teams to the data
+    selectedTeams.forEach((team) => {
+      if (game[team] !== undefined) {
+        filteredGame[team] = game[team];
+      }
+    });
+  
+    return filteredGame;
+  })
+  .filter((game) => selectedTeams.some((team) => game[team] !== undefined));
 
   const renderBarChart = () => {
     if (selectedTeams.length === 0) {
@@ -206,13 +167,13 @@ const StackedBarChartArgentina = () => {
                   style={{ fontSize: '1.0rem', fontWeight: 'bold' }}
                 />
               </YAxis>
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip active={false} payload={[]} />} />
             </BarChart>
           </ResponsiveContainer>
         </Box>
       );
     }
-
+  
     return (
       <Box
         sx={{
@@ -253,22 +214,65 @@ const StackedBarChartArgentina = () => {
                 style={{ fontSize: '1.0rem', fontWeight: 'bold' }}
               />
             </YAxis>
-            <Tooltip content={<CustomTooltip />} />
-
+            <Tooltip content={<CustomTooltip active={false} payload={[]} />} />
+  
+            {/* Render Argentina bar */}
             <Bar dataKey="argentina" stackId="a" fill={teamColors['Argentina']}>
               <LabelList
                 dataKey="argentina"
-                content={(props) => renderCustomLabel({ ...props, team: 'Argentina' })}
+                position="center"
+                content={(props) => {
+                  const { x, y, width, height } = props;
+  
+                  const posX = typeof x === 'number' ? x : 0;
+                  const posY = typeof y === 'number' ? y : 0;
+                  const barWidth = typeof width === 'number' ? width : 0;
+                  const barHeight = typeof height === 'number' ? height : 0;
+  
+                  return (
+                    <foreignObject
+                      x={posX + barWidth / 2}
+                      y={posY + barHeight / 2}
+                      width={20}
+                      height={20}
+                      style={{ pointerEvents: 'none' }}
+                    >
+                      <CountryFlag country="Argentina" size={20} />
+                    </foreignObject>
+                  );
+                }}
               />
             </Bar>
-
+  
+            {/* Render bars for selected teams */}
             {selectedTeams.map((team) => (
               <Bar key={team} dataKey={team} stackId="a" fill={teamColors[team]}>
-                <LabelList
-                  dataKey={team}
-                  content={(props) => renderCustomLabel({ ...props, team })}
-                />
-              </Bar>
+              <LabelList
+                dataKey={team}
+                position="center" // Position the label inside the bar, centered
+                content={(props) => {
+                  const { x, y, width, height } = props;
+            
+                  // Ensure x, y, width, height are numbers and handle potential undefined values
+                  const posX = typeof x === 'number' ? x : 0;
+                  const posY = typeof y === 'number' ? y : 0;
+                  const barWidth = typeof width === 'number' ? width : 0;
+                  const barHeight = typeof height === 'number' ? height : 0;
+            
+                  return (
+                    <foreignObject
+                      x={posX + barWidth / 2}
+                      y={posY + barHeight / 2}
+                      width={20}
+                      height={20}
+                      style={{ pointerEvents: 'none' }}
+                    >
+                      <CountryFlag country={team} size={20} />
+                    </foreignObject>
+                  );
+                }}
+              />
+            </Bar>
             ))}
           </BarChart>
         </ResponsiveContainer>
@@ -278,6 +282,7 @@ const StackedBarChartArgentina = () => {
 
   return (
     <Box sx={{ width: '100%', marginTop: '0px' }}>
+      {/* Header and Info button */}
       <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '0px' }}>
         <Typography variant="h4" sx={{ textAlign: 'left' }}>
           Argentina&apos;s Possession vs Selected Teams
@@ -298,7 +303,7 @@ const StackedBarChartArgentina = () => {
           }}
         >
           <Box sx={{ padding: '16px', maxWidth: '300px', backgroundColor: 'primary.main' }}>
-            <Typography variant="body1" sx={{color: 'white'}}>
+            <Typography variant="body1" sx={{ color: 'white' }}>
               This chart shows Argentina&apos;s possession compared to selected teams in various matches. Select teams below to compare their data.
             </Typography>
           </Box>
@@ -312,7 +317,6 @@ const StackedBarChartArgentina = () => {
           marginBottom: '0px',
         }}
       />
-
       <Box
         sx={{
           width: '100%',
@@ -326,6 +330,7 @@ const StackedBarChartArgentina = () => {
         {renderBarChart()}
       </Box>
 
+      {/* Team selection */}
       <Box
         sx={{
           display: 'flex',
@@ -342,7 +347,7 @@ const StackedBarChartArgentina = () => {
           .map((team) => (
             <Box
               key={team}
-              onClick={() => toggleTeamSelection(team)}
+              onClick={() => toggleTeamSelection(team as Team)} // Explicit cast to Team type
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -350,21 +355,24 @@ const StackedBarChartArgentina = () => {
                 padding: '10px 32px',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.6)',
-                backgroundColor: selectedTeams.includes(team)
-                  ? teamColors[team]
-                  : '#FFFFFF',
-                color: selectedTeams.includes(team) ? '#FFFFFF' : teamColors[team],
-                border: `2px solid ${teamColors[team]}`,
-                transition: 'background-color 0.3s, color 0.3s',
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.6)', // Box shadow effect
+                backgroundColor: selectedTeams.includes(team as Team)
+                  ? teamColors[team as Team]
+                  : '#FFFFFF', // Background color changes based on selection
+                color: selectedTeams.includes(team as Team)
+                  ? '#FFFFFF'
+                  : teamColors[team as Team], // Text color changes based on selection
+                border: `2px solid ${teamColors[team as Team]}`, // Border color based on team color
+                transition: 'background-color 0.3s, color 0.3s', // Smooth transition for hover
                 '&:hover': {
-                  backgroundColor: selectedTeams.includes(team)
-                    ? teamColors[team]
-                    : `${teamColors[team]}33`,
+                  backgroundColor: selectedTeams.includes(team as Team)
+                    ? teamColors[team as Team]
+                    : `${teamColors[team as Team]}33`, // Lighter background on hover when not selected
+                  transform: 'scale(1.05)', // Slight scaling effect on hover
                 },
               }}
             >
-              <CountryFlag country={team} size={32} />
+              <CountryFlag country={team as Team} size={32} />
               <Typography
                 variant="body1"
                 sx={{ marginLeft: '8px', fontWeight: 'bold' }}

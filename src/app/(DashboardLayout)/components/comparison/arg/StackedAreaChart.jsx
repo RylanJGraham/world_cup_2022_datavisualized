@@ -40,26 +40,57 @@ export default function StackedAreaChart() {
         backgroundColor: 'white',    // White background for the chart
         padding: 2,                  // Padding around the chart
         boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.6)', // Drop shadow
-        width: '90%',                // Make chart take up 60% of the width
+        width: '60%',                // Make chart take up 60% of the width
         height: '400px',             // Fixed height for the chart
         margin: '0 auto',            // Center the chart horizontally
       }}
     >
-      <LineChart
-        width={700}
-        height={400}
-        series={[
-          { data: concededGoals, label: 'Goals Conceded', area: true, baseline: 'min', stack: true },
-          { data: scoredGoals, label: 'Goals Scored', area: true, baseline: 'min', stack: true },
-          { data: totalGoals, label: 'Cumulative Goals', area: true, stack: true },
-        ]}
-        xAxis={[{ scaleType: 'point', data: xLabels }]}
+      <Typography variant="h6" gutterBottom sx={{color: 'primary.main'}}>
+        Goals Scored & Conceded Across the Tournament
+      </Typography>
+      <Box
         sx={{
-          [`& .${lineElementClasses.root}`]: {
-            display: 'none', // Hide marks on the line chart
-          },
+          width: '100%',
+          height: '2px',
+          backgroundColor: 'primary.main',
+          marginBottom: '0px',
         }}
       />
+<LineChart
+  width={700}
+  height={300}
+  series={[
+    { 
+      data: concededGoals, 
+      label: 'Goals Conceded', 
+      area: true, 
+      baseline: 'min', 
+      stack: true,
+      color: '#7F1431', // Deep maroon (primary color, semi-transparent)
+    },
+    { 
+      data: scoredGoals, 
+      label: 'Goals Scored', 
+      area: true, 
+      baseline: 'min', 
+      stack: true,
+      color: '#008080', 
+    },
+    { 
+      data: totalGoals, 
+      label: 'Cumulative Goals', 
+      area: true, 
+      stack: true,
+      color: '#FA896B', 
+    },
+  ]}
+  xAxis={[{ scaleType: 'point', data: xLabels }]}
+  sx={{
+    [`& .${lineElementClasses.root}`]: {
+      display: 'none', // Hide marks on the line chart
+    },
+  }}
+/>
     </Box>
   );
 }

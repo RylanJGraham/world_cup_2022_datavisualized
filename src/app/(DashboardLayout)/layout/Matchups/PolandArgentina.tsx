@@ -71,14 +71,14 @@ const MatchupPolandArgentina = () => {
   const PolarData = {
     Argentina: {
       metrics: [
-        { name: 'Possession%', value: 67 },
-        { name: 'Goals vs Attempts%', value: 8 },
-        { name: 'Passes vs Attempts%', value: 94.43 },
-        { name: 'Attacks Right%', value: 47.37 },
-        { name: 'Attacks Center%', value: 9.21 },
-        { name: 'Attacks Left%', value: 43.42 },
-        { name: 'On Target Attempts%', value: 52 },
-        { name: 'Goals Inside Pen%', value: 100 },
+        { name: 'Possession', value: 67 },
+        { name: 'Goals vs Attempts', value: 8 },
+        { name: 'Passes vs Attempts', value: 94.43 },
+        { name: 'Attacks Right', value: 47.37 },
+        { name: 'Attacks Center', value: 9.21 },
+        { name: 'Attacks Left', value: 43.42 },
+        { name: 'On Target Attempts', value: 52 },
+        { name: 'Goals Inside Penalty', value: 100 },
       ],
     },
     Poland: {
@@ -86,11 +86,11 @@ const MatchupPolandArgentina = () => {
         { name: 'Possession', value: 24 },
         { name: 'Goals vs Attempts', value: 0 },
         { name: 'Passes vs Attempts', value: 81.31 },
-        { name: 'Attacks Right%', value: 35.71 },
-        { name: 'Attacks Center%', value: 7.14 },
-        { name: 'Attacks Left%', value: 57.14 },
+        { name: 'Attacks Right', value: 35.71 },
+        { name: 'Attacks Center', value: 7.14 },
+        { name: 'Attacks Left', value: 57.14 },
         { name: 'On Target Attempts', value: 0 },
-        { name: 'Goals Inside Pen', value: 0 },
+        { name: 'Goals Inside Penalty', value: 0 },
       ],
     },
   };

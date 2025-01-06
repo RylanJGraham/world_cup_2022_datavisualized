@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Container } from '@mui/material';
+import { Container, Box,
+  Typography, } from '@mui/material';
 import TeamMatchupBanner from '@/app/(DashboardLayout)/components/comparison/TeamMatchupBanner'; // Corrected import for TeamMatchupBanner
 import PossessionBar from '@/app/(DashboardLayout)/components/comparison/PossessionBar'; // Corrected import for PossessionBar
 import Heatmap from '@/app/(DashboardLayout)/components/comparison/vis/HeatMap'; // Corrected import for PossessionBar
@@ -55,7 +56,7 @@ const MatchupSaudiArgentina = () => {
     },
     team2: {
       name: 'Australia',
-      goals: 1,
+      goals: 2,
       shotAttempts: 3,
       shotAccuracy: '66.67%',
     },
@@ -72,14 +73,14 @@ const MatchupSaudiArgentina = () => {
   const PolarData = {
     Argentina: {
       metrics: [
-        { name: 'Possession%', value: 64 },
-        { name: 'Goals vs Attempts%', value: 7.14 },
-        { name: 'Passes vs Attempts%', value: 86.72 },
-        { name: 'Attacks Right%', value: 55.32 },
-        { name: 'Attacks Center%', value: 10.64 },
-        { name: 'Attacks Left%', value: 34.04 },
-        { name: 'On Target Attempts%', value: 42.86 },
-        { name: 'Goals Inside Pen%', value: 100 },
+        { name: 'Possession', value: 64 },
+        { name: 'Goals vs Attempts', value: 7.14 },
+        { name: 'Passes vs Attempts', value: 86.72 },
+        { name: 'Attacks Right', value: 55.32 },
+        { name: 'Attacks Center', value: 10.64 },
+        { name: 'Attacks Left', value: 34.04 },
+        { name: 'On Target Attempts', value: 42.86 },
+        { name: 'Goals Inside Pen', value: 100 },
       ],
     },
     SaudiArabia: {
@@ -87,9 +88,9 @@ const MatchupSaudiArgentina = () => {
         { name: 'Possession', value: 24 },
         { name: 'Goals vs Attempts', value: 66.67 },
         { name: 'Passes vs Attempts', value: 71.16 },
-        { name: 'Attacks Right%', value: 57.89 },
-        { name: 'Attacks Center%', value: 15.79 },
-        { name: 'Attacks Left%', value: 26.32 },
+        { name: 'Attacks Right', value: 57.89 },
+        { name: 'Attacks Center', value: 15.79 },
+        { name: 'Attacks Left', value: 26.32 },
         { name: 'On Target Attempts', value: 66.67 },
         { name: 'Goals Inside Pen', value: 100 },
       ],
@@ -109,6 +110,11 @@ const MatchupSaudiArgentina = () => {
 
       {/* Polar Chart */}
       <PolarChartComponent data={PolarData} />
+      <Box sx={{justifyContent: 'middle', alignItems: 'middle', marginBottom: '20px'}}>
+      <Typography variant='h6' sx={{color: 'primary.main', textAlign: 'center'}}>
+        Values are in Percentages
+      </Typography>
+      </Box>
 
       {/* HeatMap */}
       <Heatmap data={heatmapData} />

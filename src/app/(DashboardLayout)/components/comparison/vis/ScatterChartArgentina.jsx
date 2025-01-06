@@ -38,15 +38,14 @@ const teamData = {
   ],
 };
 
-// Define colors for each team
 const teamColors = {
-  SaudiArabia: '#75AE18',
-  Mexico: '#56042C',
-  Poland: '#5899D4',
-  Australia: '#F5B49D',
-  Netherlands: '#FFBA2F',
-  Croatia: '#2C7759',
-  France: '#217A70',
+  SaudiArabia: '#FA896B',
+  Mexico: '#49BEFF',
+  Poland: '#008080',
+  Australia: '#7F1431',
+  Netherlands: '#FFD700',
+  Croatia: '#228B22',
+  France: '#4B0082',
 };
 
 const ScatterChartArgentina = () => {

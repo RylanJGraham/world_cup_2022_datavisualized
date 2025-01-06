@@ -28,13 +28,13 @@ const Heatmap = ({ data }) => {
   };
 
   const barColors = {
-    team1: '#8884d8',
-    team2: '#82ca9d',
+    team1: '#4B0082',
+    team2: '#FA896B',
   };
 
   const generateXAxisValues = (maxValue) => {
   const values = [0]; // Start with 0
-  for (let i = 10; i <= maxValue; i += 10) {
+  for (let i = 5; i <= maxValue; i += 5) {
     values.push(i);
   }
   return values;
@@ -64,97 +64,98 @@ const Heatmap = ({ data }) => {
 
   return (
     <Box sx={{ marginTop: '20px', width: '100%' }}>
-      <Typography variant="h4" sx={{ textAlign: 'left', marginBottom: '8px' }}>
-        Attacking Locations - Bar Chart
-      </Typography>
-      <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '16px' }} />
+  <Typography variant="h4" sx={{ textAlign: 'left', marginBottom: '8px' }}>
+    Attacking Locations - Bar Chart
+  </Typography>
+  <Box sx={{ width: '100%', height: '2px', backgroundColor: 'primary.main', marginBottom: '16px' }} />
 
-      {/* Sidebar */}
-      <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-        <Box sx={{
-          width: '200px',
-          marginRight: '20px',
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
-          <List>
-            <ListItem disablePadding>
-              <Button
-                sx={{ margin: '0px 0', padding: '10px 15px' }}
-                fullWidth
-                variant={selectedView === 0 ? 'contained' : 'outlined'}
-                onClick={() => setSelectedView(0)}
-                startIcon={<CountryFlag country={teamNames.team1} size={40} />}
-              >
-                <Typography variant="h5">
-                  {teamNames.team1}
-                </Typography>
-              </Button>
-            </ListItem>
-            <ListItem disablePadding>
-              <Button
-                sx={{ margin: '10px 0', padding: '10px 15px' }}
-                fullWidth
-                variant={selectedView === 1 ? 'contained' : 'outlined'}
-                onClick={() => setSelectedView(1)}
-                startIcon={<CountryFlag country={teamNames.team2} size={40} />}
-              >
-                <Typography variant="h5">
-                  {teamNames.team2}
-                </Typography>
-              </Button>
-            </ListItem>
-            <ListItem disablePadding>
-              <Button
-                sx={{ margin: '0px 0', padding: '10px 15px' }}
-                fullWidth
-                variant={selectedView === 2 ? 'contained' : 'outlined'}
-                onClick={() => setSelectedView(2)}
-              >
-                <Typography variant="h5">
-                  Compare
-                </Typography>
-              </Button>
-            </ListItem>
-          </List>
-        </Box>
+  {/* Sidebar */}
+  <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+    <Box sx={{
+      width: '200px',
+      marginRight: '20px',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
+      <List>
+        <ListItem disablePadding>
+          <Button
+            sx={{ margin: '0px 0', padding: '10px 15px' }}
+            fullWidth
+            variant={selectedView === 0 ? 'contained' : 'outlined'}
+            onClick={() => setSelectedView(0)}
+            startIcon={<CountryFlag country={teamNames.team1} size={40} />}
+          >
+            <Typography variant="h5">
+              {teamNames.team1}
+            </Typography>
+          </Button>
+        </ListItem>
+        <ListItem disablePadding>
+          <Button
+            sx={{ margin: '10px 0', padding: '10px 15px' }}
+            fullWidth
+            variant={selectedView === 1 ? 'contained' : 'outlined'}
+            onClick={() => setSelectedView(1)}
+            startIcon={<CountryFlag country={teamNames.team2} size={40} />}
+          >
+            <Typography variant="h5">
+              {teamNames.team2}
+            </Typography>
+          </Button>
+        </ListItem>
+        <ListItem disablePadding>
+          <Button
+            sx={{ margin: '0px 0', padding: '10px 15px' }}
+            fullWidth
+            variant={selectedView === 2 ? 'contained' : 'outlined'}
+            onClick={() => setSelectedView(2)}
+          >
+            <Typography variant="h5">
+              Compare
+            </Typography>
+          </Button>
+        </ListItem>
+      </List>
+    </Box>
 
-        {/* Heatmap Display */}
-        <Box sx={{ marginTop: '8px', width: '100%' }}>
-        <Box sx={{
-          flex: 1,
-          display: 'grid',
-          gridTemplateRows: `repeat(${zones.length}, auto)`,
-          gap: '20px',
-          backgroundImage: 'url(/images/pitch/football-pitch.png)', // Replace with your image path
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          borderRadius: '10px',
-          padding: '10px',
-        }}>
-          {zones.map((zone, index) => (
-            <Box key={index} sx={{ position: 'relative', marginBottom: '10px', marginTop: '20px' }}>
-              {/* Caption Above the Zone */}
-              <Typography
-                variant="h4"
-                sx={{
-                  position: 'absolute',
-                  top: '-20px',
-                  left: '0px',
-                  fontWeight: 'bold',
-                  color: 'white',
-                  textShadow: '2px 2px 2px rgba(0, 0, 0, 1.0)',
-                  maxWidth: '95%',
-                  overflow: 'hidden',
-                  whiteSpace: 'nowrap',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {zone.name}
-              </Typography>
-              <Box sx={{ width: '100%', height: '2px', backgroundColor: 'white', marginBottom: '4px' }} />
-              {/* Team Bar Sections */}
-              {selectedView === 0 || selectedView === 1 ? (
+    {/* Heatmap Display */}
+    <Box sx={{ marginTop: '8px', width: '100%' }}>
+      <Box sx={{
+        flex: 1,
+        display: 'grid',
+        gridTemplateRows: `repeat(${zones.length}, auto)`,
+        gap: '20px',
+        backgroundImage: 'url(/images/pitch/footballpitch.png)', // Replace with your image path
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)', // Added semi-transparency for the background
+        borderRadius: '10px',
+        padding: '10px',
+      }}>
+        {zones.map((zone, index) => (
+          <Box key={index} sx={{ position: 'relative', marginBottom: '10px', marginTop: '20px' }}>
+            {/* Caption Above the Zone */}
+            <Typography
+              variant="h4"
+              sx={{
+                position: 'absolute',
+                top: '-20px',
+                left: '0px',
+                fontWeight: 'bold',
+                color: 'white',
+                textShadow: '2px 2px 2px rgba(0, 0, 0, 1.0)',
+                maxWidth: '95%',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {zone.name}
+            </Typography>
+            <Box sx={{ width: '100%', height: '2px', backgroundColor: 'white', marginBottom: '4px' }} />
+            {/* Team Bar Sections */}
+            {selectedView === 0 || selectedView === 1 ? (
               <Box
                 sx={{
                   position: 'relative',
@@ -180,7 +181,7 @@ const Heatmap = ({ data }) => {
                       position: 'absolute',
                       top: 0,
                       left: 0,
-                      width: `${selectedView === 0 ? zone.team1 : zone.team2}%`,
+                      width: `${Math.min(selectedView === 0 ? (zone.team1*3.0) : (zone.team2*3.0), 100)}%`, // Scale the bars to max 60%
                       height: '100%',
                       backgroundColor: selectedView === 0 ? barColors.team1 : barColors.team2,
                       borderRadius: '8px',
@@ -214,7 +215,7 @@ const Heatmap = ({ data }) => {
                     sx={{
                       position: 'relative',
                       height: '20px',
-                      width: `${zone.team1}%`,
+                      width: `${Math.min(zone.team1 * 3.0, 100)}%`, // Scale to max 60% and adjust by 0.6 factor
                       backgroundColor: barColors.team1,
                       borderRadius: '8px',
                       display: 'flex',
@@ -244,7 +245,7 @@ const Heatmap = ({ data }) => {
                     sx={{
                       position: 'relative',
                       height: '20px',
-                      width: `${zone.team2}%`,
+                      width: `${Math.min(zone.team2 * 3.0, 100)}%`, // Scale to max 60% and adjust by 0.6 factor
                       backgroundColor: barColors.team2,
                       borderRadius: '8px',
                       display: 'flex',
@@ -266,35 +267,36 @@ const Heatmap = ({ data }) => {
                 </Tooltip>
               </Box>
             )}
+          </Box>
+        ))}
+      </Box>
+      {/* X-Axis Container */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '8px' }}>
+        
+        {/* X-Axis Values (Notches) */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+          {generateXAxisValues(35).map((value, index) => (
+            <Box key={index} sx={{ width: '10px', textAlign: 'center', paddingLeft: '6px' }}>
+              <Typography variant="body1">{value}</Typography>
             </Box>
           ))}
         </Box>
-          {/* X-Axis Container */}
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '8px' }}>
-            
-            {/* X-Axis Values (Notches) */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-              {generateXAxisValues(100).map((value, index) => (
-                <Box key={index} sx={{ width: '10px', textAlign: 'center', paddingLeft: '6px' }}>
-                  <Typography variant="body1">{value}</Typography>
-                </Box>
-              ))}
-            </Box>
 
-            {/* X-Axis Title */}
-            <Typography
-              variant="h5"
-              sx={{
-                marginTop: '6px',
-                fontWeight: 'bold',
-              }}
-            >
-              Attacks within Given Channel
-            </Typography>
-          </Box>
-        </Box>
+        {/* X-Axis Title */}
+        <Typography
+          variant="h5"
+          sx={{
+            marginTop: '6px',
+            fontWeight: 'bold',
+          }}
+        >
+          Attacks within Given Channel
+        </Typography>
       </Box>
     </Box>
+  </Box>
+</Box>
+
   );
 };
 

@@ -80,7 +80,7 @@ const MatchupFranceArgentina = () => {
         { name: 'Pct of Attacks Center', value: 17.78 },
         { name: 'Pct of Attacks Left', value: 42.22 },
         { name: 'On Target Attempts', value: 42.86 },
-        { name: 'Goals Inside Pen', value: 14.29 },
+        { name: 'Goals Inside Penalty', value: 14.29 },
       ],
     },
     France: {
@@ -92,7 +92,7 @@ const MatchupFranceArgentina = () => {
         { name: 'Pct of Attacks Center', value: 11.63 },
         { name: 'Pct of Attacks Left', value: 51.16 },
         { name: 'On Target Attempts', value: 50 },
-        { name: 'Goals Inside Pen', value: 30 },
+        { name: 'Goals Inside Penalty', value: 30 },
       ],
     },
   };
